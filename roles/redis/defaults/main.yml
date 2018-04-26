@@ -1,0 +1,6 @@
+---
+# default variable for redis
+confdir: /etc/{{role_path|basename}}
+logsdir: /var/log/{{role_path|basename}}
+datadir: /var/lib/{{role_path|basename}}
+systemdir: /var/run/{{role_path|basename}}

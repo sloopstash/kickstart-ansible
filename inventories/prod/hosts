@@ -1,0 +1,2 @@
+[appservers]
+redis-node-1 ansible_port=2001 ansible_user=root

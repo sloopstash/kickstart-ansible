@@ -1,0 +1,5 @@
+[program:redis]
+command=bash -c "/usr/local/bin/redis-server {{confdir}}/redis.conf"
+process_name=%(program_name)s
+pidfile={{ systemdir }}/process.pid
+autorestart=false

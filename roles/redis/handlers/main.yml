@@ -1,0 +1,20 @@
+---
+# start redis service
+- name: start redis
+  command: supervisorctl {{item}} redis
+  with_items:
+    - reread
+    - update
+    - start
+# stop redis service
+- name: stop redis
+  command: supervisorctl {{item}} redis
+  with_items:
+    - stop
+# restart redis service
+- name: restart redis
+  command: supervisorctl {{item}} redis
+  with_items:
+    - reread
+    - update
+    - restart

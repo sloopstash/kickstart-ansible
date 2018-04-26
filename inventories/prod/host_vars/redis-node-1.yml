@@ -1,0 +1,3 @@
+---
+node: 
+  - name: redis-node-1

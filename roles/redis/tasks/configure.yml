@@ -1,0 +1,21 @@
+---
+# Creating required directories for this role
+- name: creating default directories
+  command: "mkdir -p {{item}}"
+  with_items:
+   - "{{confdir}}"
+   - "{{systemdir}}"
+   - "{{logsdir}}"
+# Creating process file
+- name: create process id
+  command: touch {{systemdir}}/process.pid
+# Copying custom redis configuration file from template
+- name: copy redis configuration
+  template:
+    src: redis.ini.j2
+    dest: /etc/supervisord.d/redis.ini
+# Copying redis supervisor configuration file from template
+- name: copy redis supervisor configuration
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis/redis.conf
