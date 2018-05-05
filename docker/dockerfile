@@ -28,7 +28,7 @@ RUN touch /root/.ssh/authorized_keys
 RUN touch /root/.ssh/config
 RUN echo -e "Host *\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null" >> /root/.ssh/config
 RUN chmod 400 /root/.ssh/config
-ADD secrets/redis-node.pub /root/.ssh/authorized_keys
+ADD secrets/ansible-node.pub /root/.ssh/authorized_keys
 
 # cleanup history.
 RUN history -c
