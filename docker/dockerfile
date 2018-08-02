@@ -1,18 +1,13 @@
 # pull core image.
-FROM centos:7
-
-# install epel repo.
-RUN yum install -y epel-release
-RUN yum update -y
+FROM amazonlinux:2
 
 # install system packages.
-RUN yum install -y wget vim net-tools initscripts gcc make tar
-RUN yum install -y python-devel python-setuptools
-RUN easy_install supervisor
-RUN easy_install pip
-
-# create supervisor config directory.
-RUN mkdir /etc/supervisord.d
+RUN set -x \
+  && yum update -y \
+  && yum install -y wget vim net-tools initscripts gcc make tar \
+  && yum install -y python-devel python-setuptools \
+  && easy_install supervisor pip \
+  && mkdir /etc/supervisord.d
 
 # install openssh server and passwd.
 RUN yum install -y openssh-server passwd
