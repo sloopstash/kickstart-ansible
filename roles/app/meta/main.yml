@@ -1,9 +1,11 @@
 galaxy_info:
   author: SloopStash DevOps
-  description: A role to deploy Redis.
+  description: A role to deploy App.
   company: SloopStash
   license: Apache License 2.0
   min_ansible_version: 2.7.0
   galaxy_tags: []
-dependencies: []
+dependencies:
+dependencies:
+  - { role: redis }
 allow_duplicates: false

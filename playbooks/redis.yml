@@ -1,4 +1,3 @@
----
-- hosts: appservers
+- hosts: redis
   roles:
     - redis

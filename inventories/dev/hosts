@@ -1,0 +1,5 @@
+[app]
+crm-app ansible_ssh_host=100.4.1.10 ansible_user=root
+
+[redis]
+crm-redis ansible_ssh_host=100.4.1.20 ansible_user=root

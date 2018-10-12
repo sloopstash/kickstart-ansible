@@ -1,21 +1,60 @@
----
-# Download and extracting redis package
-- name: download and extract package
-  command: "{{item}}"
-  with_items:
-   - cd /tmp
-   - wget http://download.redis.io/releases/redis-{{version}}.tar.gz 
-   - tar -xvzf redis-{{version}}.tar.gz
-   - mv redis-{{version}} /var/lib/redis
-   - rm redis-{{version}}.tar.gz
-  when: not redis.stat.exists
-# Compile and installing redis
-- name: compile & install
+# install system packages required by redis.
+- name: install system packages
+  yum:
+    name:
+      - tcl
+    state: present
+
+# create redis directories in loop.
+- name: create redis directories
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: root
+    group: root
+    recurse: true
+    mode: 0700
+  loop:
+    - "{{config_dir}}"
+    - "{{system_dir}}"
+    - "{{log_dir}}"
+    - "{{data_dir}}"
+
+# download redis source archive from remote.
+- name: download redis
+  get_url:
+    url: http://download.redis.io/releases/redis-{{version}}.tar.gz
+    dest: /tmp/redis-{{version}}.tar.gz
+    mode: 0644
+
+# extract redis from source archive.
+- name: extract redis
+  unarchive:
+    src: /tmp/redis-{{version}}.tar.gz
+    dest: /tmp/redis-{{version}}
+    owner: root
+    group: root
+    creates: /tmp/redis-{{version}}
+
+# compile and install redis from source.
+- name: compile and install redis
   command: "{{item}}"
   args:
-    chdir: /var/lib/redis
-  with_items:
+    chdir: /tmp/redis-{{version}}
+  loop:
+    - make distclean
     - make
     - make install
-  notify: 
-    - start redis
+
+# cleanup the source and archive.
+- name: cleanup
+  file:
+    path: "{{item}}"
+    state: absent
+    owner: root
+    group: root
+    recurse: true
+    mode: 0700
+  loop:
+    - /tmp/redis-{{version}}
+    - /tmp/redis-{{version}}.tar.gz

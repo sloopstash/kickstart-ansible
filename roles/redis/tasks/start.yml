@@ -1,7 +1,0 @@
----
-- name: start redis
-  command: supervisorctl {{item}} redis
-  with_items:
-    - reread
-    - update
-    - start

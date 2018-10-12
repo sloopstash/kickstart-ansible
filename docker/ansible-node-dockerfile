@@ -1,0 +1,23 @@
+# use base image.
+FROM sloopstash/amazonlinux:v1
+
+# install openssh server and passwd.
+RUN yum install -y openssh-server passwd
+
+# configure openssh server.
+RUN set -x \
+  && mkdir /var/run/sshd \
+  && ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' \
+  && sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+# configure openssh user.
+RUN set -x \
+  && mkdir /root/.ssh \
+  && touch /root/.ssh/authorized_keys \
+  && touch /root/.ssh/config \
+  && echo -e "Host *\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null" >> /root/.ssh/config \
+  && chmod 400 /root/.ssh/config
+ADD secrets/ansible-node.pub /root/.ssh/authorized_keys
+
+# cleanup history.
+RUN history -c

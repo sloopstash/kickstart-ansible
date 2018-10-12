@@ -1,26 +1,32 @@
 version: '3'
 services:
-  redis-node-1:
-    image: ansible/node:centos
-    container_name: redis-node-1
+  app:
+    image: sloopstash/ansible:v1
+    container_name: crm-app
     command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    hostname: crm-app
+    ports:
+      - "8080:80"
     volumes:
       - /opt/kickstart-ansible/supervisor/conf/main.conf:/etc/supervisord.conf
       - /opt/kickstart-ansible/supervisor/conf/sshd.ini:/etc/supervisord.d/sshd.ini
-    hostname: redis-node-1
+    depends_on:
+      - redis
     networks:
-      - ansible
-  redis-node-2:
-    image: ansible/node:centos
-    container_name: redis-node-2
+      ansible-net:
+        ipv4_address: 100.4.1.10
+  redis:
+    image: sloopstash/redis:v1
+    container_name: crm-redis
     command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    hostname: crm-redis
     volumes:
       - /opt/kickstart-ansible/supervisor/conf/main.conf:/etc/supervisord.conf
       - /opt/kickstart-ansible/supervisor/conf/sshd.ini:/etc/supervisord.d/sshd.ini
-    hostname: redis-node-2
     networks:
-      - ansible
+      ansible-net:
+        ipv4_address: 100.4.1.20
 networks:
-  ansible:
+  ansible-net:
     external:
       name: ansible-net

@@ -1,9 +1,0 @@
----
-# Collect the information from redis nodes
-- stat:
-    path: /var/lib/redis
-  register: redis
-# Provisioning redis configuration to the requested hosts
-- import_tasks: configure.yml
-# Install redis from packages
-- import_tasks: install.yml
