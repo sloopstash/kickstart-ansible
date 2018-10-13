@@ -1,0 +1,8 @@
+# stop redis using supervisor.
+- name: stop redis using supervisor
+  command: supervisorctl {{item}} redis
+  loop:
+    - stop
+    - remove
+  tags:
+    - stop

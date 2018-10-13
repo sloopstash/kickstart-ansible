@@ -1,0 +1,9 @@
+# start redis using supervisor.
+- name: start redis using supervisor
+  command: supervisorctl {{item}} redis
+  loop:
+    - reread
+    - update
+    - start
+  tags:
+    - start
