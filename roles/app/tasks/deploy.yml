@@ -5,6 +5,7 @@
     version: master
     dest: "{{app.deploy_dir}}"
     update: yes
+    force: yes
   tags:
     - deploy
 
