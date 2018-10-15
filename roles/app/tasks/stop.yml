@@ -1,0 +1,17 @@
+# stop nginx.
+- name: stop nginx
+  command: supervisorctl {{item}} nginx
+  loop:
+    - stop
+    - remove
+  tags:
+    - stop
+
+# stop app.
+- name: stop app
+  command: supervisorctl {{item}} app
+  loop:
+    - stop
+    - remove
+  tags:
+    - stop

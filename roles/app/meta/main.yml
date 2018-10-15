@@ -5,7 +5,5 @@ galaxy_info:
   license: Apache License 2.0
   min_ansible_version: 2.7.0
   galaxy_tags: []
-dependencies:
-dependencies:
-  - { role: redis }
+dependencies: []
 allow_duplicates: false

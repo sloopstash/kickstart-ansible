@@ -1,0 +1,17 @@
+# fetch app git repository.
+- name: fetch app git repository
+  git:
+    repo: "{{app.repo_url}}"
+    version: master
+    dest: "{{app.deploy_dir}}"
+    update: yes
+  tags:
+    - deploy
+
+# install app python packages.
+- name: install app python packages
+  command: pip install -r requirements.txt
+  args:
+    chdir: "{{app.deploy_dir}}"
+  tags:
+    - deploy

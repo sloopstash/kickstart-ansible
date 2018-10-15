@@ -1,5 +1,5 @@
-# restart redis using supervisor.
-- name: restart redis using supervisor
+# restart redis.
+- name: restart redis
   command: supervisorctl restart redis
   tags:
     - restart

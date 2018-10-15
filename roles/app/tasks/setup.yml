@@ -1,0 +1,49 @@
+# install nginx.
+- name: install nginx
+  yum:
+    name: https://nginx.org/packages/rhel/7/x86_64/RPMS/nginx-{{app.nginx.version}}.el7_4.ngx.x86_64.rpm
+    state: present
+  tags:
+    - setup
+
+# configure nginx.
+- name: configure nginx
+  template:
+    src: nginx/nginx.conf.j2
+    dest: "{{app.nginx.config_dir}}/nginx.conf"
+    owner: root
+    group: root
+    mode: 0600
+  tags:
+    - setup
+
+# configure supervisor for nginx.
+- name: configure supervisor for nginx
+  template:
+    src: nginx/supervisor.ini.j2
+    dest: /etc/supervisord.d/nginx.ini
+    owner: root
+    group: root
+    mode: 0600
+  tags:
+    - setup
+
+# install git.
+- name: install git
+  yum:
+    name: git
+    state: present
+  tags:
+    - setup
+
+# create app deploy directory.
+- name: create app deploy directory
+  file:
+    path: "{{app.deploy_dir}}"
+    state: directory
+    owner: root
+    group: root
+    recurse: true
+    mode: 0600
+  tags:
+    - setup

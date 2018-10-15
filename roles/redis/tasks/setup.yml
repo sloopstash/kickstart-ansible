@@ -1,0 +1,60 @@
+# install system packages.
+- name: install system packages
+  yum:
+    name:
+      - tcl
+    state: present
+  tags:
+    - setup
+
+# create redis directories.
+- name: create redis directories
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: root
+    group: root
+    recurse: true
+    mode: 0700
+  loop:
+    - "{{redis.config_dir}}"
+    - "{{redis.system_dir}}"
+    - "{{redis.log_dir}}"
+    - "{{redis.data_dir}}"
+  tags:
+    - setup
+
+# download and extract redis.
+- name: download and extract redis
+  unarchive:
+    src: http://download.redis.io/releases/redis-{{redis.version}}.tar.gz
+    dest: /tmp
+    owner: root
+    group: root
+    remote_src: yes
+    creates: /tmp/redis-{{redis.version}}
+  tags:
+    - setup
+
+# compile and install redis.
+- name: compile and install redis
+  command: "{{item}}"
+  args:
+    chdir: /tmp/redis-{{redis.version}}
+  loop:
+    - make distclean
+    - make
+    - make install
+  tags:
+    - setup
+
+# cleanup source.
+- name: cleanup source
+  file:
+    path: /tmp/redis-{{redis.version}}
+    state: absent
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - setup
