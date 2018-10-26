@@ -7,7 +7,7 @@
     update: yes
     force: yes
   tags:
-    - deploy
+    - update
 
 # install app python packages.
 - name: install app python packages
@@ -15,4 +15,4 @@
   args:
     chdir: "{{app.deploy_dir}}"
   tags:
-    - deploy
+    - update
