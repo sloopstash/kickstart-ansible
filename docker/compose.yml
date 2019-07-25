@@ -24,8 +24,7 @@ services:
       - /opt/kickstart-ansible/supervisor/conf/main.conf:/etc/supervisord.conf
       - /opt/kickstart-ansible/supervisor/conf/sshd.ini:/etc/supervisord.d/sshd.ini
     networks:
-      ansible-net:
-        ipv4_address: 100.4.1.20
+      - ansible-net
 networks:
   ansible-net:
     external:
