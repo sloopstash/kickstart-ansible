@@ -2,7 +2,6 @@
 - name: start app
   command: supervisorctl {{item}} app
   loop:
-    - reread
     - update
     - start
   tags:
@@ -12,7 +11,6 @@
 - name: start nginx
   command: supervisorctl {{item}} nginx
   loop:
-    - reread
     - update
     - start
   tags:

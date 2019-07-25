@@ -2,7 +2,6 @@
 - name: start redis
   command: supervisorctl {{item}} redis
   loop:
-    - reread
     - update
     - start
   tags:
