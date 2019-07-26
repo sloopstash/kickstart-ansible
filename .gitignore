@@ -2,5 +2,4 @@ secrets/*.pem
 secrets/*.pub
 *.log
 *.retry
-awx/*
 tmp/*
