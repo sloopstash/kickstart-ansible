@@ -1,2 +1,2 @@
 # Kickstart Ansible
-Deploy sample CRM application and Redis server on Docker containers in single shot using Ansible playbooks. The application is built on Python Flask micro framework and use Redis as database.
+The ultimate aim of this Ansible starter-kit Git repository is to help you deploy a sample CRM app and Redis database server on Docker containers in singleshot using Ansible playbooks and Ansible roles. You need user manual to operate the starter-kit. Contact us to get the user manual and start learning Ansible today.
