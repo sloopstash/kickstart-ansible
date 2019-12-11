@@ -1,0 +1,9 @@
+[app]
+crm-stack-app-1 ansible_host=127.0.0.1 ansible_port=2221 ansible_user=root
+crm-stack-app-2 ansible_host=127.0.0.1 ansible_port=2222 ansible_user=root
+crm-stack-app-3 ansible_host=127.0.0.1 ansible_port=2223 ansible_user=root
+crm-stack-app-4 ansible_host=127.0.0.1 ansible_port=2224 ansible_user=root
+crm-stack-app-5 ansible_host=127.0.0.1 ansible_port=2225 ansible_user=root
+
+[redis]
+crm-stack-redis-1 ansible_host=127.0.0.1 ansible_port=2231 ansible_user=root

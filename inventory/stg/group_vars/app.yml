@@ -1,0 +1,7 @@
+# group variables.
+app:
+  repo_url: https://github.com/sloopstash/kickstart-flask
+  deploy_dir: /opt/app
+  nginx:
+    version: 1.14.0-1
+    config_dir: /etc/nginx
