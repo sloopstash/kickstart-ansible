@@ -1,3 +1,16 @@
+# configure app.
+- name: configure app
+  template:
+    src: app.conf.j2
+    dest: "{{app.deploy_dir}}/config/app.conf"
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    - restart app
+  tags:
+    - configure
+
 # configure app for redis.
 - name: configure app for redis
   template:
@@ -6,8 +19,6 @@
     owner: root
     group: root
     mode: 0600
-  notify:
-    - restart app
   tags:
     - configure
 
