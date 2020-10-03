@@ -1,5 +1,6 @@
-secrets/*.pem
-secrets/*.pub
+secret/*.pem
+secret/*.pub
+secret/*.yml
 *.log
 *.retry
 tmp/*
