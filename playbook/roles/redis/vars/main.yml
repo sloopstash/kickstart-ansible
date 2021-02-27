@@ -1,4 +1,4 @@
-# role variables.
+# Role variables.
 redis:
   config_dir: /etc/redis
   system_dir: /var/run/redis

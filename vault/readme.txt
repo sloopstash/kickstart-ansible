@@ -1,1 +1,1 @@
-- place ansible vault passwords here.
+- Place Ansible vault passwords here.

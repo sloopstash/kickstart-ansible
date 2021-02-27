@@ -1,5 +1,5 @@
-# configure app.
-- name: configure app
+# Configure App.
+- name: Configure App
   template:
     src: app.conf.j2
     dest: "{{app.deploy_dir}}/config/app.conf"
@@ -7,12 +7,12 @@
     group: root
     mode: 0600
   notify:
-    - restart app
+    - Restart App
   tags:
     - configure
 
-# configure app for redis.
-- name: configure app for redis
+# Configure App for Redis.
+- name: Configure App for Redis
   template:
     src: redis.conf.j2
     dest: "{{app.deploy_dir}}/config/redis.conf"
@@ -22,8 +22,8 @@
   tags:
     - configure
 
-# configure nginx for app.
-- name: configure nginx for app
+# Configure Nginx for App.
+- name: Configure Nginx for App
   template:
     src: nginx/app.conf.j2
     dest: "{{app.nginx.config_dir}}/conf.d/app.conf"
@@ -33,7 +33,7 @@
   tags:
     - configure
 
-# configure supervisor for app.
+# Configure Supervisor for App.
 - name: configure supervisor for app
   template:
     src: supervisor.ini.j2

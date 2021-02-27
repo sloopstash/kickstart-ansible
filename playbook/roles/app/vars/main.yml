@@ -1,4 +1,4 @@
-# role variables.
+# Role variables.
 app:
   repo_url: https://github.com/sloopstash/kickstart-flask
   deploy_dir: /opt/app

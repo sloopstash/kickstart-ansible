@@ -1,5 +1,5 @@
-# install system packages.
-- name: install system packages
+# Install system packages.
+- name: Install system packages
   yum:
     name:
       - tcl
@@ -7,8 +7,8 @@
   tags:
     - setup
 
-# create redis directories.
-- name: create redis directories
+# Create Redis directories.
+- name: Create Redis directories
   file:
     path: "{{item}}"
     state: directory
@@ -24,8 +24,8 @@
   tags:
     - setup
 
-# download and extract redis.
-- name: download and extract redis
+# Download and extract Redis.
+- name: Download and extract Redis
   unarchive:
     src: http://download.redis.io/releases/redis-{{redis.version}}.tar.gz
     dest: /tmp
@@ -36,8 +36,8 @@
   tags:
     - setup
 
-# compile and install redis.
-- name: compile and install redis
+# Compile and install Redis.
+- name: Compile and install Redis
   command: "{{item}}"
   args:
     chdir: /tmp/redis-{{redis.version}}
@@ -48,8 +48,8 @@
   tags:
     - setup
 
-# cleanup source.
-- name: cleanup source
+# Cleanup source.
+- name: Cleanup source
   file:
     path: /tmp/redis-{{redis.version}}
     state: absent

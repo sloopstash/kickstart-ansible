@@ -1,16 +1,16 @@
-# use base image.
+# Docker image to use.
 FROM sloopstash/amazonlinux:v1
 
-# install openssh server and passwd.
+# Install OpenSSH server.
 RUN yum install -y openssh-server passwd
 
-# configure openssh server.
+# Configure OpenSSH server.
 RUN set -x \
   && mkdir /var/run/sshd \
   && ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' \
   && sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
-# configure openssh user.
+# Configure OpenSSH user.
 RUN set -x \
   && mkdir /root/.ssh \
   && touch /root/.ssh/authorized_keys \
@@ -19,5 +19,5 @@ RUN set -x \
   && chmod 400 /root/.ssh/config
 ADD secret/node.pub /root/.ssh/authorized_keys
 
-# cleanup history.
+# Cleanup history.
 RUN history -c

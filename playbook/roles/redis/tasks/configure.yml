@@ -1,5 +1,5 @@
-# configure redis.
-- name: configure redis
+# Configure Redis.
+- name: Configure Redis
   template:
     src: redis.conf.j2
     dest: "{{redis.config_dir}}/redis.conf"
@@ -9,8 +9,8 @@
   tags:
     - configure
 
-# create empty pid file.
-- name: create empty pid file
+# Create empty PID file.
+- name: Create empty PID file
   file:
     path: "{{redis.system_dir}}/process.pid"
     state: touch
@@ -20,8 +20,8 @@
   tags:
     - configure
 
-# configure supervisor for redis.
-- name: configure supervisor for redis
+# Configure Supervisor for Redis.
+- name: Configure Supervisor for Redis
   template:
     src: supervisor.ini.j2
     dest: /etc/supervisord.d/redis.ini
@@ -29,6 +29,6 @@
     group: root
     mode: 0600
   notify:
-    - restart redis
+    - Restart Redis
   tags:
     - configure

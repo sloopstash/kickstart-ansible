@@ -1,11 +1,11 @@
-# restart app.
-- name: restart app
+# Restart App.
+- name: Restart App
   command: supervisorctl restart app
   tags:
     - restart
 
-# restart nginx.
-- name: restart nginx
+# Restart Nginx.
+- name: Restart Nginx
   command: supervisorctl restart nginx
   tags:
     - restart
