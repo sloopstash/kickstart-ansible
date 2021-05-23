@@ -1,5 +1,5 @@
 [app]
-crm-prd-app-sr-1 ansible_host=10.1.2.10 ansible_port=22 ansible_user=root
+crm-prd-app-1 ansible_host=10.1.2.10 ansible_port=22 ansible_user=root
 
 [redis]
-crm-prd-redis-sr-1 ansible_host=10.1.4.10 ansible_port=22 ansible_user=root
+crm-prd-redis-1 ansible_host=10.1.4.10 ansible_port=22 ansible_user=root
