@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   app:
     image: sloopstash/ansible:v1
@@ -8,8 +8,8 @@ services:
       - "2221-2225:22"
       - "8081-8085:80"
     volumes:
-      - /opt/kickstart-ansible/supervisor/conf/main.conf:/etc/supervisord.conf
-      - /opt/kickstart-ansible/supervisor/conf/sshd.ini:/etc/supervisord.d/sshd.ini
+      - ../supervisor/conf/main.conf:/etc/supervisord.conf
+      - ../supervisor/conf/sshd.ini:/etc/supervisord.d/sshd.ini
     depends_on:
       - redis
     networks:
@@ -21,8 +21,8 @@ services:
     ports:
       - "2231:22"
     volumes:
-      - /opt/kickstart-ansible/supervisor/conf/main.conf:/etc/supervisord.conf
-      - /opt/kickstart-ansible/supervisor/conf/sshd.ini:/etc/supervisord.d/sshd.ini
+      - ../supervisor/conf/main.conf:/etc/supervisord.conf
+      - ../supervisor/conf/sshd.ini:/etc/supervisord.d/sshd.ini
     networks:
       - ansible-net
 networks:
