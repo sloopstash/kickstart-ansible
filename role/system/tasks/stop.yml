@@ -1,0 +1,5 @@
+# Stop Supervisor.
+- name: Stop Supervisor
+  command: "{{ system.supervisor.exec_dir }}/supervisorctl shutdown"
+  tags:
+    - stop

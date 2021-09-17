@@ -1,0 +1,8 @@
+# Start Supervisor.
+- name: Start Supervisor
+  command: "{{ system.supervisor.exec_dir }}/supervisord -c {{ system.supervisor.conf_path }}"
+  register: result
+  failed_when:
+    - result.rc != 0 and result.rc != 2
+  tags:
+    - start

@@ -1,0 +1,5 @@
+# Role variables.
+system:
+  supervisor:
+    exec_dir: /usr/bin
+    conf_path: /etc/supervisord.conf

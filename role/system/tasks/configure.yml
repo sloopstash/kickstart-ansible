@@ -1,0 +1,12 @@
+# Create Supervisor configuration.
+- name: Create Supervisor configuration
+  template:
+    src: supervisor/server.conf.j2
+    dest: "{{ system.supervisor.conf_path }}"
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    - Restart Supervisor
+  tags:
+    - configure

@@ -1,0 +1,6 @@
+# Restart Supervisor.
+- name: Restart Supervisor
+  command: "{{ item }}"
+  loop:
+    - "{{ system.supervisor.exec_dir }}/supervisorctl shutdown"
+    - "{{ system.supervisor.exec_dir }}/supervisord -c {{ system.supervisor.conf_path }}"
