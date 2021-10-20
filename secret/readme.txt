@@ -1,1 +1,0 @@
-- Place encrypted files created using Ansible vault.
