@@ -1,9 +1,11 @@
-[app]
-crm-stg-app-1 ansible_host=100.4.1.0 ansible_port=2221 ansible_user=root
-crm-stg-app-2 ansible_host=100.4.1.0 ansible_port=2222 ansible_user=root
-crm-stg-app-3 ansible_host=100.4.1.0 ansible_port=2223 ansible_user=root
-crm-stg-app-4 ansible_host=100.4.1.0 ansible_port=2224 ansible_user=root
-crm-stg-app-5 ansible_host=100.4.1.0 ansible_port=2225 ansible_user=root
-
 [redis]
-crm-stg-redis-1 ansible_host=100.4.1.0 ansible_port=2231 ansible_user=root
+sloopstash-stg-crm-redis-1 ansible_host=127.0.0.1 ansible_port=2201 ansible_user=root
+
+[app]
+sloopstash-stg-crm-app-1 ansible_host=127.0.0.1 ansible_port=2211 ansible_user=root
+sloopstash-stg-crm-app-2 ansible_host=127.0.0.1 ansible_port=2212 ansible_user=root
+sloopstash-stg-crm-app-3 ansible_host=127.0.0.1 ansible_port=2213 ansible_user=root
+
+[nginx]
+sloopstash-stg-crm-nginx-1 ansible_host=127.0.0.1 ansible_port=2221 ansible_user=root
+sloopstash-stg-crm-nginx-2 ansible_host=127.0.0.1 ansible_port=2222 ansible_user=root

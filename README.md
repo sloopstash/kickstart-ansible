@@ -1,2 +1,2 @@
 # Kickstart Ansible
-The ultimate aim of this Ansible starter-kit is to help you deploy a sample CRM app service and Redis database service on Docker containers in singleshot using Ansible playbooks and Ansible roles.
+Our Ansible starter-kit repository contains Ansible playbooks, roles, inventories, configurations, and other resources, and Docker Compose YAML configurations needed to automate the deployment of workloads in containers, VMs, and host machines.

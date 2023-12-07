@@ -1,6 +1,8 @@
 secret/*.pem
 secret/*.pub
 secret/*.yml
+secret/node*
+**/secret/*
 *.log
 *.retry
 tmp/*
