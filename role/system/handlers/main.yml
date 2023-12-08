@@ -1,9 +1,9 @@
 # Apply required Linux kernel params.
 - name: Apply required Linux kernel params
   ansible.builtin.command: "sysctl -p /etc/sysctl.d/90-{{system.organization}}.conf"
-  owner: root
-  group: root
   register: status
-  failed_when: status.rc != 0 or status.rc != 255
+  failed_when:
+    - status.rc != 0
+    - status.rc != 255
   tags:
     - configure

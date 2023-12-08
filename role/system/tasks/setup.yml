@@ -1,11 +1,12 @@
 # Remove Postfix service.
 - name: Remove Postfix service
-  ansible.builtin.command: "{{item}}"
-  owner: root
-  group: root
+  ansible.builtin.command:
+    cmd: "{{item}}"
+    removes: /sbin/postfix
   register: status
-  failed_when: status.rc != 0 or status.rc != 1
-  removes: /sbin/postfix
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
   loop:
     - systemctl stop postfix.service
     - systemctl disable postfix.service
@@ -14,19 +15,19 @@
 
 # Enable netfilter Linux kernel module.
 - name: Enable netfilter Linux kernel module
-  ansible.builtin.command: modprobe br_netfilter
-  owner: root
-  group: root
+  ansible.builtin.command:
+    cmd: modprobe br_netfilter
+    removes: /bin/systemd
   register: status
-  failed_when: status.rc != 0
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
   tags:
     - setup
 
 # Disable Linux swap memory.
 - name: Disable Linux swap memory
   ansible.builtin.command: swapoff -a
-  owner: root
-  group: root
   register: status
   failed_when: status.rc != 0
   tags:

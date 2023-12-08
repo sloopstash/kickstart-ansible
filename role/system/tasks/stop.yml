@@ -1,10 +1,11 @@
 # Stop Supervisor.
 - name: Stop Supervisor
-  ansible.builtin.command: "{{system.supervisor.exec_dir}}/supervisorctl shutdown"
-  owner: root
-  group: root
+  ansible.builtin.command:
+    cmd: "{{system.supervisor.exec_dir}}/supervisorctl shutdown"
+    removes: "{{system.supervisor.exec_dir}}/supervisorctl"
   register: status
-  failed_when: status.rc != 0 or status.rc != 1
-  removes: "{{system.supervisor.exec_dir}}/supervisorctl"
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
   tags:
     - stop
