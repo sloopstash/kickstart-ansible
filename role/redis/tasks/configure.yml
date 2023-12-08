@@ -2,7 +2,7 @@
 - name: Configure Redis
   ansible.builtin.template:
     src: server.conf.j2
-    dest: "{{redis.conf_dir}}/redis.conf"
+    dest: "{{server_conf_path}}"
     owner: root
     group: root
     mode: 0600
@@ -10,6 +10,7 @@
     data_dir: "{{redis.data_dir}}"
     pid_path: "{{redis.system_dir}}/process.pid"
     log_path: "{{redis.log_dir}}/redis.log"
+    server_conf_path: "{{redis.conf_dir}}/server.conf"
   tags:
     - configure
 

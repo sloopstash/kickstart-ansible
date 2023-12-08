@@ -21,9 +21,11 @@
 
 # Compile and install Redis.
 - name: Compile and install Redis
-  ansible.builtin.command:
-    cmd: "{{item}}"
-    creates: "{{source_dir}}"
+  ansible.builtin.command: "{{item}}"
+  register: status
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
   args:
     chdir: "{{source_dir}}"
   loop:
@@ -32,10 +34,6 @@
     - make install
   vars:
     source_dir: "/tmp/redis-{{redis.release_version}}"
-  register: status
-  failed_when:
-    - status.rc != 0
-    - status.rc != 1
   tags:
     - setup
 
