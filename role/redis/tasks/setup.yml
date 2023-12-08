@@ -17,22 +17,24 @@
     recurse: true
     mode: 0700
   loop:
-    - "{{redis.config_dir}}"
-    - "{{redis.system_dir}}"
-    - "{{redis.log_dir}}"
+    - "{{redis.root_dir}}"
     - "{{redis.data_dir}}"
+    - "{{redis.log_dir}}"
+    - "{{redis.conf_dir}}"
+    - "{{redis.script_dir}}"
+    - "{{redis.system_dir}}"
   tags:
     - setup
 
 # Download and extract Redis.
 - name: Download and extract Redis
   unarchive:
-    src: http://download.redis.io/releases/redis-{{redis.version}}.tar.gz
+    src: http://download.redis.io/releases/redis-{{redis.release_version}}.tar.gz
     dest: /tmp
     owner: root
     group: root
     remote_src: yes
-    creates: /tmp/redis-{{redis.version}}
+    creates: /tmp/redis-{{redis.release_version}}
   tags:
     - setup
 
@@ -40,7 +42,7 @@
 - name: Compile and install Redis
   command: "{{item}}"
   args:
-    chdir: /tmp/redis-{{redis.version}}
+    chdir: /tmp/redis-{{redis.release_version}}
   loop:
     - make distclean
     - make
@@ -51,7 +53,7 @@
 # Cleanup source.
 - name: Cleanup source
   file:
-    path: /tmp/redis-{{redis.version}}
+    path: /tmp/redis-{{redis.release_version}}
     state: absent
     owner: root
     group: root

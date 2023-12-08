@@ -1,6 +1,6 @@
 # Stop Redis.
 - name: Stop Redis
-  command: supervisorctl {{item}} redis
+  command: /usr/bin/supervisorctl {{item}} redis
   loop:
     - stop
     - remove

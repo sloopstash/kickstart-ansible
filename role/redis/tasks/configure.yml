@@ -1,8 +1,8 @@
 # Configure Redis.
 - name: Configure Redis
   template:
-    src: redis.conf.j2
-    dest: "{{redis.config_dir}}/redis.conf"
+    src: server.conf.j2
+    dest: "{{redis.conf_dir}}/redis.conf"
     owner: root
     group: root
     mode: 0600
@@ -24,11 +24,17 @@
 - name: Configure Supervisor for Redis
   template:
     src: supervisor.ini.j2
-    dest: /etc/supervisord.d/redis.ini
+    dest: "{{redis.system_dir}}/supervisor.ini"
     owner: root
     group: root
     mode: 0600
   notify:
     - Restart Redis
+  tags:
+    - configure
+
+# Symlink Supervisor configuration.
+- name: Symlink Supervisor configuration
+  command: "ln -sf {{redis.system_dir}}/supervisor.ini /etc/supervisord.d/redis.ini"
   tags:
     - configure

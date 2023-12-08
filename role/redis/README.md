@@ -1,4 +1,4 @@
-Redis Role
-==========
+Redis Ansible role
+===================
 
-A role to deploy Redis.
+Deploy and manage Redis service in the machine.

@@ -1,6 +1,6 @@
 # Start Redis.
 - name: Start Redis
-  command: supervisorctl {{item}} redis
+  command: /usr/bin/supervisorctl {{item}} redis
   loop:
     - update
     - start
