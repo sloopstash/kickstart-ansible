@@ -1,5 +1,5 @@
 # Restart Redis.
 - name: Restart Redis
-  command: supervisorctl restart redis
+  ansible.builtin.command: supervisorctl restart redis
   tags:
     - restart

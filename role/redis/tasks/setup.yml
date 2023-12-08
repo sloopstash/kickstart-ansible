@@ -1,15 +1,58 @@
 # Install system packages.
 - name: Install system packages
-  yum:
+  ansible.builtin.yum:
     name:
       - tcl
     state: present
   tags:
     - setup
 
+# Download and extract Redis.
+- name: Download and extract Redis
+  ansible.builtin.unarchive:
+    src: http://download.redis.io/releases/redis-{{redis.release_version}}.tar.gz
+    dest: /tmp
+    owner: root
+    group: root
+    remote_src: yes
+    creates: /tmp/redis-{{redis.release_version}}
+  tags:
+    - setup
+
+# Compile and install Redis.
+- name: Compile and install Redis
+  ansible.builtin.command:
+    cmd: "{{item}}"
+    creates: "{{source_dir}}"
+  args:
+    chdir: "{{source_dir}}"
+  loop:
+    - make distclean
+    - make
+    - make install
+  vars:
+    source_dir: "/tmp/redis-{{redis.release_version}}"
+  register: status
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
+  tags:
+    - setup
+
+# Cleanup source.
+- name: Cleanup source
+  ansible.builtin.file:
+    path: /tmp/redis-{{redis.release_version}}
+    state: absent
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - setup
+
 # Create Redis directories.
 - name: Create Redis directories
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
     owner: root
@@ -23,40 +66,5 @@
     - "{{redis.conf_dir}}"
     - "{{redis.script_dir}}"
     - "{{redis.system_dir}}"
-  tags:
-    - setup
-
-# Download and extract Redis.
-- name: Download and extract Redis
-  unarchive:
-    src: http://download.redis.io/releases/redis-{{redis.release_version}}.tar.gz
-    dest: /tmp
-    owner: root
-    group: root
-    remote_src: yes
-    creates: /tmp/redis-{{redis.release_version}}
-  tags:
-    - setup
-
-# Compile and install Redis.
-- name: Compile and install Redis
-  command: "{{item}}"
-  args:
-    chdir: /tmp/redis-{{redis.release_version}}
-  loop:
-    - make distclean
-    - make
-    - make install
-  tags:
-    - setup
-
-# Cleanup source.
-- name: Cleanup source
-  file:
-    path: /tmp/redis-{{redis.release_version}}
-    state: absent
-    owner: root
-    group: root
-    mode: 0700
   tags:
     - setup
