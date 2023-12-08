@@ -1,8 +1,8 @@
 # Stop Redis.
 - name: Stop Redis
-  command: supervisorctl {{item}} redis
-  loop:
-    - stop
-    - remove
+  community.general.supervisorctl:
+    name: redis
+    state: absent
+    stop_before_removing: true
   tags:
     - stop

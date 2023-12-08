@@ -1,8 +1,8 @@
 # Start Redis.
 - name: Start Redis
-  command: supervisorctl {{item}} redis
-  loop:
-    - update
-    - start
+  community.general.supervisorctl:
+    name: redis
+    state: present
+    stop_before_removing: true
   tags:
     - start

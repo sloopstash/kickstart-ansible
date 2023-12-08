@@ -1,5 +1,7 @@
 # Restart Redis.
 - name: Restart Redis
-  command: supervisorctl restart redis
+  community.general.supervisorctl:
+    name: redis
+    state: restarted
   tags:
     - restart

@@ -1,17 +1,22 @@
 # Configure Redis.
 - name: Configure Redis
-  template:
-    src: redis.conf.j2
-    dest: "{{redis.config_dir}}/redis.conf"
+  ansible.builtin.template:
+    src: server.conf.j2
+    dest: "{{server_conf_path}}"
     owner: root
     group: root
     mode: 0600
+  vars:
+    data_dir: "{{redis.data_dir}}"
+    pid_path: "{{redis.system_dir}}/process.pid"
+    log_path: "{{redis.log_dir}}/redis.log"
+    server_conf_path: "{{redis.conf_dir}}/server.conf"
   tags:
     - configure
 
 # Create empty PID file.
 - name: Create empty PID file
-  file:
+  ansible.builtin.file:
     path: "{{redis.system_dir}}/process.pid"
     state: touch
     owner: root
@@ -22,13 +27,25 @@
 
 # Configure Supervisor for Redis.
 - name: Configure Supervisor for Redis
-  template:
+  ansible.builtin.template:
     src: supervisor.ini.j2
-    dest: /etc/supervisord.d/redis.ini
+    dest: "{{redis.system_dir}}/supervisor.ini"
     owner: root
     group: root
     mode: 0600
+  vars:
+    server_conf_path: "{{redis.conf_dir}}/server.conf"
+    server_pid_path: "{{redis.system_dir}}/process.pid"
   notify:
     - Restart Redis
+  tags:
+    - configure
+
+# Symlink Supervisor configuration.
+- name: Symlink Supervisor configuration
+  ansible.builtin.command: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/redis.ini"
+  vars:
+    init_conf_path: "{{redis.system_dir}}/supervisor.ini"
+    supervisor_conf_dir: "/etc/supervisord.d"
   tags:
     - configure

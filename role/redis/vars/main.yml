@@ -1,7 +1,12 @@
 # Role variables.
 redis:
-  version: 4.0.8
-  config_dir: /etc/redis
-  system_dir: /var/run/redis
-  data_dir: /var/lib/redis
-  log_dir: /var/log/redis
+  organization: sloopstash
+  environment: stg
+  release_version: 4.0.9
+  root_dir: /opt/redis
+  data_dir: /opt/redis/data
+  log_dir: /opt/redis/log
+  conf_dir: /opt/redis/conf
+  script_dir: /opt/redis/script
+  system_dir: /opt/redis/system
+  exec_dir: /usr/local/bin
