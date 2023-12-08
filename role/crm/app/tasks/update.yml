@@ -1,18 +1,28 @@
 # Fetch App Git repository.
 - name: Fetch App Git repository
-  git:
-    repo: "{{app.repo_url}}"
-    version: master
-    dest: "{{app.deploy_dir}}"
+  ansible.builtin.git:
+    repo: "{{repo_url}}"
+    version: "{{revision}}"
+    dest: "{{source_dir}}"
     update: yes
     force: yes
+  vars:
+    revision: "{{app.revision}}"
+    source_dir: "{{app.source_dir}}"
+    repo_url: "{{app.repo_url}}"
   tags:
     - update
 
 # Install App Python packages.
 - name: Install App Python packages
-  command: pip install -r requirements.txt
+  ansible.builtin.command: pip install "{{item}}"
   args:
-    chdir: "{{app.deploy_dir}}"
+    chdir: "{{source_dir}}"
+  loop:
+    - flask==0.12.4
+    - redis==2.10.6
+    - elastic-apm[flask]==3.0.5
+  vars:
+    source_dir: "{{app.source_dir}}"
   tags:
     - update

@@ -1,13 +1,13 @@
 # Role variables.
 app:
-  environment: dev
+  organization: sloopstash
+  environment: stg
+  external_domain: sloopstash.stg
+  internal_domain: sloopstash-stg.internal
+  root_dir: /opt/app
+  source_dir: /opt/app/source
+  log_dir: /opt/app/log
+  script_dir: /opt/app/script
+  system_dir: /opt/app/system
   repo_url: https://github.com/sloopstash/kickstart-flask
-  deploy_dir: /opt/app
-  redis:
-    host: redis
-  cdn:
-    static:
-      endpoint: http://app.crm
-  nginx:
-    version: 1.14.0-1
-    config_dir: /etc/nginx
+  revision: master

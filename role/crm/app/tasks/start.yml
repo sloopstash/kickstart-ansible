@@ -1,17 +1,8 @@
 # Start App.
 - name: Start App
-  command: supervisorctl {{item}} app
-  loop:
-    - update
-    - start
-  tags:
-    - start
-
-# Start Nginx.
-- name: Start Nginx
-  command: supervisorctl {{item}} nginx
-  loop:
-    - update
-    - start
+  community.general.supervisorctl:
+    name: app
+    state: present
+    stop_before_removing: true
   tags:
     - start

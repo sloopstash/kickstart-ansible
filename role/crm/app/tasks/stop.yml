@@ -1,17 +1,8 @@
-# Stop Nginx.
-- name: Stop Nginx
-  command: supervisorctl {{item}} nginx
-  loop:
-    - stop
-    - remove
-  tags:
-    - stop
-
 # Stop App.
 - name: Stop App
-  command: supervisorctl {{item}} app
-  loop:
-    - stop
-    - remove
+  community.general.supervisorctl:
+    name: app
+    state: absent
+    stop_before_removing: true
   tags:
     - stop

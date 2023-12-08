@@ -1,11 +1,7 @@
 # Restart App.
 - name: Restart App
-  command: supervisorctl restart app
-  tags:
-    - restart
-
-# Restart Nginx.
-- name: Restart Nginx
-  command: supervisorctl restart nginx
+  community.general.supervisorctl:
+    name: app
+    state: restarted
   tags:
     - restart
