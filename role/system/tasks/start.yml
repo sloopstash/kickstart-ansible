@@ -1,8 +1,10 @@
 # Start Supervisor.
 - name: Start Supervisor
-  command: "{{ system.supervisor.exec_dir }}/supervisord -c {{ system.supervisor.conf_path }}"
-  register: result
-  failed_when:
-    - result.rc != 0 and result.rc != 2
+  ansible.builtin.command: "{{system.supervisor.exec_dir}}/supervisord -c {{system.supervisor.conf_path}}"
+  owner: root
+  group: root
+  register: status
+  failed_when: status.rc != 0 or status.rc != 2
+  removes: "{{system.supervisor.conf_path}}"
   tags:
     - start

@@ -1,12 +1,30 @@
-# Create Supervisor configuration.
-- name: Create Supervisor configuration
-  template:
-    src: supervisor/server.conf.j2
-    dest: "{{ system.supervisor.conf_path }}"
+# Set required Linux kernel params.
+- name: Set required Linux kernel params
+  ansible.builtin.template:
+    src: kernel.conf.j2
+    dest: "/etc/sysctl.d/90-{{system.organization}}.conf"
     owner: root
     group: root
     mode: 0600
+    backup: false
+  vars:
+    params: "{{system.kernel}}"
   notify:
-    - Restart Supervisor
+    - Apply required Linux kernel params
+  tags:
+    - configure
+
+# Set required Linux security limit params.
+- name: Set required Linux security limit params
+  ansible.builtin.template:
+    src: security-limit.conf.j2
+    dest: "/etc/security/limits.d/10-{{system.organization}}.conf"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  vars:
+    system_user: "{{system.user}}"
+    params: "{{system.security_limit}}"
   tags:
     - configure

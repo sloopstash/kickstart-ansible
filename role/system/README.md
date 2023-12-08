@@ -1,4 +1,4 @@
-System Role
-===========
+System Ansible role
+===================
 
-A role to deploy and manage operating system services and resources.
+Deploy and manage operating system services and resources in the machine.

@@ -1,0 +1,42 @@
+# Remove Postfix service.
+- name: Remove Postfix service
+  ansible.builtin.command: "{{item}}"
+  owner: root
+  group: root
+  register: status
+  failed_when: status.rc != 0 or status.rc != 1
+  removes: /sbin/postfix
+  loop:
+    - systemctl stop postfix.service
+    - systemctl disable postfix.service
+  tags:
+    - setup
+
+# Enable netfilter Linux kernel module.
+- name: Enable netfilter Linux kernel module
+  ansible.builtin.command: modprobe br_netfilter
+  owner: root
+  group: root
+  register: status
+  failed_when: status.rc != 0
+  tags:
+    - setup
+
+# Disable Linux swap memory.
+- name: Disable Linux swap memory
+  ansible.builtin.command: swapoff -a
+  owner: root
+  group: root
+  register: status
+  failed_when: status.rc != 0
+  tags:
+    - setup
+
+# Install Git.
+- name: Install Git
+  ansible.builtin.yum:
+    name:
+      - git
+    state: present
+  tags:
+    - setup
