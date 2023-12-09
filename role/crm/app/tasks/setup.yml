@@ -1,49 +1,29 @@
-# Install Nginx.
-- name: Install Nginx
-  yum:
-    name: https://nginx.org/packages/rhel/7/x86_64/RPMS/nginx-{{app.nginx.version}}.el7_4.ngx.x86_64.rpm
+# Install Python.
+- name: Install Python
+  ansible.builtin.yum:
+    name:
+      - python-2.7.18
+      - python-devel
+      - python-pip
+      - python-setuptools
     state: present
   tags:
     - setup
 
-# Configure Nginx.
-- name: Configure Nginx
-  template:
-    src: nginx/nginx.conf.j2
-    dest: "{{app.nginx.config_dir}}/nginx.conf"
-    owner: root
-    group: root
-    mode: 0600
-  tags:
-    - setup
-
-# Configure Supervisor for Nginx.
-- name: Configure Supervisor for Nginx
-  template:
-    src: nginx/supervisor.ini.j2
-    dest: /etc/supervisord.d/nginx.ini
-    owner: root
-    group: root
-    mode: 0600
-  tags:
-    - setup
-
-# Install Git.
-- name: Install Git
-  yum:
-    name: git
-    state: present
-  tags:
-    - setup
-
-# Create App deploy directory.
-- name: Create App deploy directory
-  file:
-    path: "{{app.deploy_dir}}"
+# Create App directories.
+- name: Create App directories
+  ansible.builtin.file:
+    path: "{{item}}"
     state: directory
     owner: root
     group: root
     recurse: true
-    mode: 0600
+    mode: 0700
+  loop:
+    - "{{app.root_dir}}"
+    - "{{app.source_dir}}"
+    - "{{app.log_dir}}"
+    - "{{app.script_dir}}"
+    - "{{app.system_dir}}"
   tags:
     - setup

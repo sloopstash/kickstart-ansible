@@ -1,45 +1,40 @@
 # Configure App.
 - name: Configure App
-  template:
+  ansible.builtin.template:
     src: app.conf.j2
-    dest: "{{app.deploy_dir}}/config/app.conf"
+    dest: "{{conf_dir}}/app.conf"
     owner: root
     group: root
     mode: 0600
+  vars:
+    conf_dir: "{{app.source_dir}}/config"
+    environment: "{{app.environment}}"
+    external_domain: "{{app.external_domain}}"
   notify:
     - Restart App
   tags:
     - configure
 
-# Configure App for Redis.
-- name: Configure App for Redis
-  template:
-    src: redis.conf.j2
-    dest: "{{app.deploy_dir}}/config/redis.conf"
-    owner: root
-    group: root
-    mode: 0600
-  tags:
-    - configure
-
-# Configure Nginx for App.
-- name: Configure Nginx for App
-  template:
-    src: nginx/app.conf.j2
-    dest: "{{app.nginx.config_dir}}/conf.d/app.conf"
-    owner: root
-    group: root
-    mode: 0600
-  tags:
-    - configure
-
 # Configure Supervisor for App.
 - name: configure supervisor for app
-  template:
+  ansible.builtin.template:
     src: supervisor.ini.j2
-    dest: /etc/supervisord.d/app.ini
+    dest: "{{init_conf_path}}"
     owner: root
     group: root
     mode: 0600
+  vars:
+    init_conf_path: "{{app.system_dir}}/supervisor.ini"
+    source_dir: "{{app.source_dir}}"
+    log_dir: "{{app.log_dir}}"
+  tags:
+    - configure
+
+# Symlink Supervisor configuration.
+- name: Symlink Supervisor configuration
+  ansible.builtin.command: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/app.ini"
+  vars:
+    init_conf_path: "{{app.system_dir}}/supervisor.ini"
+    supervisor_conf_dir: "/etc/supervisord.d"
   tags:
     - configure

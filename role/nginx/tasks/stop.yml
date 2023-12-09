@@ -1,7 +1,7 @@
-# Stop App.
-- name: Stop App
+# Stop Nginx.
+- name: Stop Nginx
   community.general.supervisorctl:
-    name: app
+    name: nginx
     state: absent
     stop_before_removing: true
   tags:

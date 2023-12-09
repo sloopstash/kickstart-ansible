@@ -1,4 +1,4 @@
-App Role
-========
+App Ansible role
+================
 
-A role to deploy App.
+Deploy and manage App service in the machine.

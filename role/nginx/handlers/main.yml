@@ -1,7 +1,7 @@
-# Restart App.
-- name: Restart App
+# Restart Nginx.
+- name: Restart Nginx
   community.general.supervisorctl:
-    name: app
+    name: nginx
     state: restarted
   tags:
     - restart

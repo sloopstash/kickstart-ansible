@@ -12,17 +12,3 @@
     repo_url: "{{app.repo_url}}"
   tags:
     - update
-
-# Install App Python packages.
-- name: Install App Python packages
-  ansible.builtin.command: pip install "{{item}}"
-  args:
-    chdir: "{{source_dir}}"
-  loop:
-    - flask==0.12.4
-    - redis==2.10.6
-    - elastic-apm[flask]==3.0.5
-  vars:
-    source_dir: "{{app.source_dir}}"
-  tags:
-    - update
