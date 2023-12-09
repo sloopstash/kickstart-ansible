@@ -1,0 +1,8 @@
+# Stop Nginx.
+- name: Stop Nginx
+  community.general.supervisorctl:
+    name: nginx
+    state: absent
+    stop_before_removing: true
+  tags:
+    - stop

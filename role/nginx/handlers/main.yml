@@ -1,0 +1,7 @@
+# Restart Nginx.
+- name: Restart Nginx
+  community.general.supervisorctl:
+    name: nginx
+    state: restarted
+  tags:
+    - restart

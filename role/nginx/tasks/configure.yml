@@ -1,0 +1,84 @@
+# Configure Nginx.
+- name: Configure Nginx
+  ansible.builtin.template:
+    src: server.conf.j2
+    dest: "{{server_conf_path}}"
+    owner: root
+    group: root
+    mode: 0600
+  vars:
+    pid_path: "{{nginx.system_dir}}/process.pid"
+    server_conf_path: "{{nginx.conf_dir}}/server.conf"
+  tags:
+    - configure
+
+# Configure Nginx for App.
+- name: Configure Nginx for App
+  ansible.builtin.template:
+    src: "{{nginx.stack}}/app.conf.j2"
+    dest: "{{app_conf_path}}"
+    owner: root
+    group: root
+    mode: 0600
+  vars:
+    app_conf_path: "{{nginx.conf_dir}}/app.conf"
+    stack: "{{nginx.stack}}"
+    external_domain: "{{nginx.external_domain}}"
+    app_source_dir: "{{app.source_dir}}"
+    log_dir: "{{nginx.log_dir}}"
+  tags:
+    - configure
+
+# Create empty PID file.
+- name: Create empty PID file
+  ansible.builtin.file:
+    path: "{{server_pid_path}}"
+    state: touch
+    owner: root
+    group: root
+    mode: 0600
+  vars:
+    server_pid_path: "{{nginx.system_dir}}/process.pid"
+  tags:
+    - configure
+
+# Configure Supervisor for Nginx.
+- name: Configure Supervisor for Nginx
+  ansible.builtin.template:
+    src: supervisor.ini.j2
+    dest: "{{init_conf_path}}"
+    owner: root
+    group: root
+    mode: 0600
+  vars:
+    init_conf_path: "{{nginx.system_dir}}/supervisor.ini"
+    server_pid_path: "{{nginx.system_dir}}/process.pid"
+  notify:
+    - Restart Nginx
+  tags:
+    - configure
+
+# Symlink Nginx server configuration.
+- name: Symlink Nginx server configuration
+  ansible.builtin.command: "ln -sf {{server_conf_path}} /etc/nginx/nginx.conf"
+  vars:
+    server_conf_path: "{{nginx.conf_dir}}/server.conf"
+  tags:
+    - configure
+
+# Symlink Nginx configuration for App.
+- name: Symlink Supervisor configuration
+  ansible.builtin.command: "ln -sf {{app_conf_path}} /etc/nginx/conf.d/app.conf"
+  vars:
+    app_conf_path: "{{nginx.conf_dir}}/app.conf"
+  tags:
+    - configure
+
+# Symlink Supervisor configuration.
+- name: Symlink Supervisor configuration
+  ansible.builtin.command: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/nginx.ini"
+  vars:
+    init_conf_path: "{{nginx.system_dir}}/supervisor.ini"
+    supervisor_conf_dir: "/etc/supervisord.d"
+  tags:
+    - configure

@@ -1,0 +1,14 @@
+# Fetch App Git repository.
+- name: Fetch App Git repository
+  ansible.builtin.git:
+    repo: "{{repo_url}}"
+    version: "{{revision}}"
+    dest: "{{source_dir}}"
+    update: yes
+    force: yes
+  vars:
+    revision: "{{app.revision}}"
+    source_dir: "{{app.source_dir}}"
+    repo_url: "{{app.repo_url}}"
+  tags:
+    - update

@@ -1,0 +1,18 @@
+# Role variables.
+nginx:
+  organization: sloopstash
+  environment: stg
+  stack: crm
+  external_domain: sloopstash.stg
+  internal_domain: sloopstash-stg.internal
+  release_version: 1.14.0
+  root_dir: /opt/nginx
+  log_dir: /opt/nginx/log
+  conf_dir: /opt/nginx/conf
+  script_dir: /opt/nginx/script
+  system_dir: /opt/nginx/system
+  exec_dir: /usr/sbin
+app:
+  source_dir: /opt/app/source
+  repo_url: https://github.com/sloopstash/kickstart-flask
+  revision: master
