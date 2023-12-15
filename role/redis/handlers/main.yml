@@ -1,7 +1,10 @@
 # Restart Redis.
 - name: Restart Redis
-  community.general.supervisorctl:
-    name: redis
-    state: restarted
+  ansible.builtin.command: "{{item}}"
+  loop:
+    - "{{supervisor_client_path}} update redis"
+    - "{{supervisor_client_path}} restart redis"
+  vars:
+    supervisor_client_path: "/usr/bin/supervisorctl"
   tags:
     - restart

@@ -1,8 +1,14 @@
 # Stop App.
 - name: Stop App
-  community.general.supervisorctl:
-    name: app
-    state: absent
-    stop_before_removing: true
+  ansible.builtin.command: "{{item}}"
+  loop:
+    - "{{supervisor_client_path}} stop app"
+    - "{{supervisor_client_path}} remove app"
+  vars:
+    supervisor_client_path: "/usr/bin/supervisorctl"
+  register: status
+  failed_when:
+    - status.rc != 0
+    - '"no such process" not in status.stdout'
   tags:
     - stop

@@ -1,8 +1,10 @@
 # Start Redis.
 - name: Start Redis
-  community.general.supervisorctl:
-    name: redis
-    state: present
-    stop_before_removing: true
+  ansible.builtin.command: "{{item}}"
+  loop:
+    - "{{supervisor_client_path}} update redis"
+    - "{{supervisor_client_path}} start redis"
+  vars:
+    supervisor_client_path: "/usr/bin/supervisorctl"
   tags:
     - start

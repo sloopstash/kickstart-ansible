@@ -1,8 +1,14 @@
 # Stop Redis.
 - name: Stop Redis
-  community.general.supervisorctl:
-    name: redis
-    state: absent
-    stop_before_removing: true
+  ansible.builtin.command: "{{item}}"
+  loop:
+    - "{{supervisor_client_path}} stop redis"
+    - "{{supervisor_client_path}} remove redis"
+  vars:
+    supervisor_client_path: "/usr/bin/supervisorctl"
+  register: status
+  failed_when:
+    - status.rc != 0
+    - '"no such process" not in status.stdout'
   tags:
     - stop

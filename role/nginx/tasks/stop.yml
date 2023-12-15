@@ -1,8 +1,14 @@
 # Stop Nginx.
 - name: Stop Nginx
-  community.general.supervisorctl:
-    name: nginx
-    state: absent
-    stop_before_removing: true
+  ansible.builtin.command: "{{item}}"
+  loop:
+    - "{{supervisor_client_path}} stop nginx"
+    - "{{supervisor_client_path}} remove nginx"
+  vars:
+    supervisor_client_path: "/usr/bin/supervisorctl"
+  register: status
+  failed_when:
+    - status.rc != 0
+    - '"no such process" not in status.stdout'
   tags:
     - stop

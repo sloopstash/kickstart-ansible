@@ -1,8 +1,10 @@
 # Start App.
 - name: Start App
-  community.general.supervisorctl:
-    name: app
-    state: present
-    stop_before_removing: true
+  ansible.builtin.command: "{{item}}"
+  loop:
+    - "{{supervisor_client_path}} update app"
+    - "{{supervisor_client_path}} start app"
+  vars:
+    supervisor_client_path: "/usr/bin/supervisorctl"
   tags:
     - start
