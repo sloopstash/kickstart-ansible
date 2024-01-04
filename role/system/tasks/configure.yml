@@ -28,3 +28,15 @@
     params: "{{system.security_limit}}"
   tags:
     - configure
+
+# Configure Supervisor.
+- name: Configure Supervisor
+  ansible.builtin.template:
+    src: supervisor/server.conf.j2
+    dest: "{{system.supervisor.conf_path}}"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  tags:
+    - configure

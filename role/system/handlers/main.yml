@@ -4,6 +4,7 @@
   register: status
   failed_when:
     - status.rc != 0
+    - status.rc != 1
     - status.rc != 255
   tags:
     - configure
