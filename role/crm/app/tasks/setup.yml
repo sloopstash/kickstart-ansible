@@ -7,6 +7,9 @@
       - python-pip
       - python-setuptools
     state: present
+  register: status
+  failed_when:
+    - status.rc != 1
   tags:
     - setup
 

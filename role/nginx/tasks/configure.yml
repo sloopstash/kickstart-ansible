@@ -53,8 +53,6 @@
   vars:
     init_conf_path: "{{nginx.system_dir}}/supervisor.ini"
     server_pid_path: "{{nginx.system_dir}}/process.pid"
-  notify:
-    - Restart Nginx
   tags:
     - configure
 

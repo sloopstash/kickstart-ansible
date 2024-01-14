@@ -10,8 +10,6 @@
     conf_dir: "{{app.source_dir}}/config"
     environment: "{{app.environment}}"
     external_domain: "{{app.external_domain}}"
-  notify:
-    - Restart App
   tags:
     - configure
 

@@ -36,8 +36,6 @@
   vars:
     server_conf_path: "{{redis.conf_dir}}/server.conf"
     server_pid_path: "{{redis.system_dir}}/process.pid"
-  notify:
-    - Restart Redis
   tags:
     - configure
 
@@ -47,5 +45,11 @@
   vars:
     init_conf_path: "{{redis.system_dir}}/supervisor.ini"
     supervisor_conf_dir: "/etc/supervisord.d"
+  tags:
+    - configure
+
+# Symlink Redis server binary path.
+- name: Symlink Redis server binary path
+  ansible.builtin.command: "ln -sf {{redis.exec_dir}}/redis-server /usr/bin/redis-server"
   tags:
     - configure
