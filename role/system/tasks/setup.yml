@@ -3,13 +3,13 @@
   ansible.builtin.command:
     cmd: "{{item}}"
     removes: /sbin/postfix
+  loop:
+    - systemctl stop postfix.service
+    - systemctl disable postfix.service
   register: status
   failed_when:
     - status.rc != 0
     - status.rc != 1
-  loop:
-    - systemctl stop postfix.service
-    - systemctl disable postfix.service
   tags:
     - setup
 
@@ -29,7 +29,9 @@
 - name: Disable Linux swap memory
   ansible.builtin.command: swapoff -a
   register: status
-  failed_when: status.rc != 0
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
   tags:
     - setup
 

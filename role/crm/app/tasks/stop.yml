@@ -1,11 +1,16 @@
 # Stop App.
 - name: Stop App
-  ansible.builtin.command: "{{item}}"
+  ansible.builtin.command:
+    cmd: "{{item}}"
+    removes: "{{init_conf_path}}"
   loop:
     - "{{supervisor_client_path}} stop app"
     - "{{supervisor_client_path}} remove app"
   vars:
-    supervisor_client_path: "/usr/bin/supervisorctl"
+    system_dir: "{{app.system_dir}}"
+    supervisor_exec_dir: "{{system.supervisor.exec_dir}}"
+    supervisor_client_path: "{{supervisor_exec_dir}}/supervisorctl"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
   register: status
   failed_when:
     - status.rc != 0

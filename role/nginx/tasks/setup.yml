@@ -1,8 +1,11 @@
 # Install Nginx.
 - name: Install Nginx
   ansible.builtin.yum:
-    name: https://nginx.org/packages/rhel/7/x86_64/RPMS/nginx-{{nginx.release_version}}-1.el7_4.ngx.x86_64.rpm
+    name: "{{download_url}}"
     state: present
+  vars:
+    release_version: "{{nginx.release_version}}"
+    download_url: "https://nginx.org/packages/rhel/7/x86_64/RPMS/nginx-{{release_version}}-1.el7_4.ngx.x86_64.rpm"
   tags:
     - setup
 
@@ -16,11 +19,16 @@
     recurse: true
     mode: 0700
   loop:
-    - "{{nginx.root_dir}}"
-    - "{{nginx.log_dir}}"
-    - "{{nginx.conf_dir}}"
-    - "{{nginx.script_dir}}"
-    - "{{nginx.system_dir}}"
-    - "{{app.source_dir}}"
+    - "{{root_dir}}"
+    - "{{log_dir}}"
+    - "{{conf_dir}}"
+    - "{{script_dir}}"
+    - "{{system_dir}}"
+  vars:
+    root_dir: "{{nginx.root_dir}}"
+    log_dir: "{{nginx.log_dir}}"
+    conf_dir: "{{nginx.conf_dir}}"
+    script_dir: "{{nginx.script_dir}}"
+    system_dir: "{{nginx.system_dir}}"
   tags:
     - setup

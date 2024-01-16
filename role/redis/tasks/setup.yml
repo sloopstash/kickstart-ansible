@@ -10,41 +10,52 @@
 # Download and extract Redis.
 - name: Download and extract Redis
   ansible.builtin.unarchive:
-    src: http://download.redis.io/releases/redis-{{redis.release_version}}.tar.gz
+    src: "{{download_url}}"
     dest: /tmp
     owner: root
     group: root
     remote_src: yes
-    creates: /tmp/redis-{{redis.release_version}}
+    creates: "{{archive_path}}"
+  vars:
+    release_version: "{{redis.release_version}}"
+    download_url: "http://download.redis.io/releases/redis-{{release_version}}.tar.gz"
+    archive_path: "/tmp/redis-{{release_version}}.tar.gz"
   tags:
     - setup
 
 # Compile and install Redis.
 - name: Compile and install Redis
-  ansible.builtin.command: "{{item}}"
-  register: status
-  failed_when:
-    - status.rc != 0
-    - status.rc != 1
-  args:
+  ansible.builtin.command:
+    cmd: "{{item}}"
     chdir: "{{source_dir}}"
+    removes: "{{source_dir}}"
   loop:
     - make distclean
     - make
     - make install
   vars:
-    source_dir: "/tmp/redis-{{redis.release_version}}"
+    release_version: "{{redis.release_version}}"
+    source_dir: "/tmp/redis-{{release_version}}"
+  register: status
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
   tags:
     - setup
 
-# Cleanup source.
-- name: Cleanup source
-  ansible.builtin.file:
-    path: /tmp/redis-{{redis.release_version}}
-    state: absent
-    owner: root
-    group: root
-    mode: 0700
+# Delete Redis source.
+- name: Delete Redis source
+  ansible.builtin.command:
+    cmd: rm -rf redis-*
+    chdir: /tmp
+    removes: "{{source_dir}}"
+  vars:
+    release_version: "{{redis.release_version}}"
+    source_dir: "/tmp/redis-{{release_version}}"
+  register: status
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
   tags:
     - setup
 
@@ -58,11 +69,18 @@
     recurse: true
     mode: 0700
   loop:
-    - "{{redis.root_dir}}"
-    - "{{redis.data_dir}}"
-    - "{{redis.log_dir}}"
-    - "{{redis.conf_dir}}"
-    - "{{redis.script_dir}}"
-    - "{{redis.system_dir}}"
+    - "{{root_dir}}"
+    - "{{data_dir}}"
+    - "{{log_dir}}"
+    - "{{conf_dir}}"
+    - "{{script_dir}}"
+    - "{{system_dir}}"
+  vars:
+    root_dir: "{{redis.root_dir}}"
+    data_dir: "{{redis.data_dir}}"
+    log_dir: "{{redis.log_dir}}"
+    conf_dir: "{{redis.conf_dir}}"
+    script_dir: "{{redis.script_dir}}"
+    system_dir: "{{redis.system_dir}}"
   tags:
     - setup

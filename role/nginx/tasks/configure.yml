@@ -6,26 +6,31 @@
     owner: root
     group: root
     mode: 0600
+    backup: false
   vars:
-    pid_path: "{{nginx.system_dir}}/process.pid"
-    server_conf_path: "{{nginx.conf_dir}}/server.conf"
+    conf_dir: "{{nginx.conf_dir}}"
+    system_dir: "{{nginx.system_dir}}"
+    server_conf_path: "{{conf_dir}}/server.conf"
+    pid_path: "{{system_dir}}/process.pid"
   tags:
     - configure
 
 # Configure Nginx for App.
 - name: Configure Nginx for App
   ansible.builtin.template:
-    src: "{{nginx.stack}}/app.conf.j2"
+    src: "{{stack}}/app.conf.j2"
     dest: "{{app_conf_path}}"
     owner: root
     group: root
     mode: 0600
+    backup: false
   vars:
-    app_conf_path: "{{nginx.conf_dir}}/app.conf"
     stack: "{{nginx.stack}}"
     external_domain: "{{nginx.external_domain}}"
-    app_source_dir: "{{app.source_dir}}"
     log_dir: "{{nginx.log_dir}}"
+    conf_dir: "{{nginx.conf_dir}}"
+    app_source_dir: "{{app.source_dir}}"
+    app_conf_path: "{{conf_dir}}/app.conf"
   tags:
     - configure
 
@@ -36,9 +41,9 @@
     state: touch
     owner: root
     group: root
-    mode: 0600
   vars:
-    server_pid_path: "{{nginx.system_dir}}/process.pid"
+    system_dir: "{{nginx.system_dir}}"
+    server_pid_path: "{{system_dir}}/process.pid"
   tags:
     - configure
 
@@ -50,33 +55,44 @@
     owner: root
     group: root
     mode: 0600
+    backup: false
   vars:
-    init_conf_path: "{{nginx.system_dir}}/supervisor.ini"
-    server_pid_path: "{{nginx.system_dir}}/process.pid"
+    system_dir: "{{nginx.system_dir}}"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
+    server_pid_path: "{{system_dir}}/process.pid"
   tags:
     - configure
 
 # Symlink Nginx server configuration.
 - name: Symlink Nginx server configuration
-  ansible.builtin.command: "ln -sf {{server_conf_path}} /etc/nginx/nginx.conf"
+  ansible.builtin.command:
+    cmd: "ln -sf {{server_conf_path}} /etc/nginx/nginx.conf"
+    removes: "{{server_conf_path}}"
   vars:
-    server_conf_path: "{{nginx.conf_dir}}/server.conf"
+    conf_dir: "{{nginx.conf_dir}}"
+    server_conf_path: "{{conf_dir}}/server.conf"
   tags:
     - configure
 
 # Symlink Nginx configuration for App.
-- name: Symlink Supervisor configuration
-  ansible.builtin.command: "ln -sf {{app_conf_path}} /etc/nginx/conf.d/app.conf"
+- name: Symlink Nginx configuration for App
+  ansible.builtin.command:
+    cmd: "ln -sf {{app_conf_path}} /etc/nginx/conf.d/app.conf"
+    removes: "{{app_conf_path}}"
   vars:
-    app_conf_path: "{{nginx.conf_dir}}/app.conf"
+    conf_dir: "{{nginx.conf_dir}}"
+    app_conf_path: "{{conf_dir}}/app.conf"
   tags:
     - configure
 
 # Symlink Supervisor configuration.
 - name: Symlink Supervisor configuration
-  ansible.builtin.command: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/nginx.ini"
+  ansible.builtin.command:
+    cmd: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/nginx.ini"
+    removes: "{{init_conf_path}}"
   vars:
-    init_conf_path: "{{nginx.system_dir}}/supervisor.ini"
-    supervisor_conf_dir: "/etc/supervisord.d"
+    system_dir: "{{nginx.system_dir}}"
+    supervisor_conf_dir: "{{system.supervisor.conf_dir}}"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
   tags:
     - configure

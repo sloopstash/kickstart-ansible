@@ -9,6 +9,7 @@
     state: present
   register: status
   failed_when:
+    - status.rc != 0
     - status.rc != 1
   tags:
     - setup
@@ -23,10 +24,16 @@
     recurse: true
     mode: 0700
   loop:
-    - "{{app.root_dir}}"
-    - "{{app.source_dir}}"
-    - "{{app.log_dir}}"
-    - "{{app.script_dir}}"
-    - "{{app.system_dir}}"
+    - "{{root_dir}}"
+    - "{{source_dir}}"
+    - "{{log_dir}}"
+    - "{{script_dir}}"
+    - "{{system_dir}}"
+  vars:
+    root_dir: "{{app.root_dir}}"
+    source_dir: "{{app.source_dir}}"
+    log_dir: "{{app.log_dir}}"
+    script_dir: "{{app.script_dir}}"
+    system_dir: "{{app.system_dir}}"
   tags:
     - setup

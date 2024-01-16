@@ -1,4 +1,9 @@
-# Role variables.
+# Set variables.
+system:
+  supervisor:
+    conf_dir: /etc/supervisord.d
+    exec_dir: /usr/bin
+    conf_path: /etc/supervisord.conf
 nginx:
   organization: sloopstash
   environment: stg
@@ -12,7 +17,3 @@ nginx:
   script_dir: /opt/nginx/script
   system_dir: /opt/nginx/system
   exec_dir: /usr/sbin
-app:
-  source_dir: /opt/app/source
-  repo_url: https://github.com/sloopstash/kickstart-flask
-  revision: master

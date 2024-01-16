@@ -1,4 +1,9 @@
-# Role variables.
+# Set variables.
+system:
+  supervisor:
+    conf_dir: /etc/supervisord.d
+    exec_dir: /usr/bin
+    conf_path: /etc/supervisord.conf
 app:
   organization: sloopstash
   environment: stg

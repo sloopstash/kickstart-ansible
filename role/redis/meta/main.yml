@@ -1,9 +1,10 @@
 galaxy_info:
+  role_name: redis
   author: Tuto
-  description: Deploy and manage Redis service in the machine..
   company: SloopStash
   license: Apache License 2.0
-  min_ansible_version: 9.1.0
-  galaxy_tags: []
+  description: Deploy and manage Redis service in the machine.
+  short_description: Deploy and manage Redis service in the machine.
+  min_ansible_version: 2.10
 dependencies: []
 allow_duplicates: false

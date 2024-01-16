@@ -2,12 +2,14 @@
 - name: Set required Linux kernel params
   ansible.builtin.template:
     src: kernel.conf.j2
-    dest: "/etc/sysctl.d/90-{{system.organization}}.conf"
+    dest: "{{kernel_conf_path}}"
     owner: root
     group: root
     mode: 0600
     backup: false
   vars:
+    organization: "{{system.organization}}"
+    kernel_conf_path: "/etc/sysctl.d/90-{{organization}}.conf"
     params: "{{system.kernel}}"
   notify:
     - Apply required Linux kernel params
@@ -18,12 +20,14 @@
 - name: Set required Linux security limit params
   ansible.builtin.template:
     src: security-limit.conf.j2
-    dest: "/etc/security/limits.d/10-{{system.organization}}.conf"
+    dest: "{{security_limit_conf_path}}"
     owner: root
     group: root
     mode: 0600
     backup: false
   vars:
+    organization: "{{system.organization}}"
+    security_limit_conf_path: "/etc/security/limits.d/10-{{organization}}.conf"
     system_user: "{{system.user}}"
     params: "{{system.security_limit}}"
   tags:
@@ -33,10 +37,12 @@
 - name: Configure Supervisor
   ansible.builtin.template:
     src: supervisor/server.conf.j2
-    dest: "{{system.supervisor.conf_path}}"
+    dest: "{{supervisor_conf_path}}"
     owner: root
     group: root
     mode: 0600
     backup: false
+  vars:
+    supervisor_conf_path: "{{system.supervisor.conf_path}}"
   tags:
     - configure

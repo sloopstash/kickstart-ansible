@@ -6,22 +6,27 @@
     owner: root
     group: root
     mode: 0600
+    backup: false
   vars:
     data_dir: "{{redis.data_dir}}"
-    pid_path: "{{redis.system_dir}}/process.pid"
-    log_path: "{{redis.log_dir}}/redis.log"
+    log_dir: "{{redis.log_dir}}"
+    system_dir: "{{redis.system_dir}}"
     server_conf_path: "{{redis.conf_dir}}/server.conf"
+    pid_path: "{{system_dir}}/process.pid"
+    log_path: "{{log_dir}}/server.log"
   tags:
     - configure
 
 # Create empty PID file.
 - name: Create empty PID file
   ansible.builtin.file:
-    path: "{{redis.system_dir}}/process.pid"
+    path: "{{server_pid_path}}"
     state: touch
     owner: root
     group: root
-    mode: 0600
+  vars:
+    system_dir: "{{redis.system_dir}}"
+    server_pid_path: "{{system_dir}}/process.pid"
   tags:
     - configure
 
@@ -29,27 +34,39 @@
 - name: Configure Supervisor for Redis
   ansible.builtin.template:
     src: supervisor.ini.j2
-    dest: "{{redis.system_dir}}/supervisor.ini"
+    dest: "{{init_conf_path}}"
     owner: root
     group: root
     mode: 0600
+    backup: false
   vars:
-    server_conf_path: "{{redis.conf_dir}}/server.conf"
-    server_pid_path: "{{redis.system_dir}}/process.pid"
+    conf_dir: "{{redis.conf_dir}}"
+    system_dir: "{{redis.system_dir}}"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
+    server_conf_path: "{{conf_dir}}/server.conf"
+    server_pid_path: "{{system_dir}}/process.pid"
+  tags:
+    - configure
+
+# Symlink Redis server path.
+- name: Symlink Redis server path
+  ansible.builtin.command:
+    cmd: "ln -sf {{server_path}} /usr/bin/redis-server"
+    removes: "{{server_path}}"
+  vars:
+    exec_dir: "{{redis.exec_dir}}"
+    server_path: "{{exec_dir}}/redis-server"
   tags:
     - configure
 
 # Symlink Supervisor configuration.
 - name: Symlink Supervisor configuration
-  ansible.builtin.command: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/redis.ini"
+  ansible.builtin.command:
+    cmd: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/redis.ini"
+    removes: "{{init_conf_path}}"
   vars:
-    init_conf_path: "{{redis.system_dir}}/supervisor.ini"
-    supervisor_conf_dir: "/etc/supervisord.d"
-  tags:
-    - configure
-
-# Symlink Redis server binary path.
-- name: Symlink Redis server binary path
-  ansible.builtin.command: "ln -sf {{redis.exec_dir}}/redis-server /usr/bin/redis-server"
+    system_dir: "{{redis.system_dir}}"
+    supervisor_conf_dir: "{{system.supervisor.conf_dir}}"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
   tags:
     - configure

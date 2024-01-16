@@ -1,11 +1,16 @@
 # Stop Nginx.
 - name: Stop Nginx
-  ansible.builtin.command: "{{item}}"
+  ansible.builtin.command:
+    cmd: "{{item}}"
+    removes: "{{init_conf_path}}"
   loop:
     - "{{supervisor_client_path}} stop nginx"
     - "{{supervisor_client_path}} remove nginx"
   vars:
-    supervisor_client_path: "/usr/bin/supervisorctl"
+    system_dir: "{{nginx.system_dir}}"
+    supervisor_exec_dir: "{{system.supervisor.exec_dir}}"
+    supervisor_client_path: "{{supervisor_exec_dir}}/supervisorctl"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
   register: status
   failed_when:
     - status.rc != 0

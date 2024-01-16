@@ -1,7 +1,13 @@
-# Role variables.
+# Set variables.
+system:
+  supervisor:
+    conf_dir: /etc/supervisord.d
+    exec_dir: /usr/bin
+    conf_path: /etc/supervisord.conf
 redis:
   organization: sloopstash
   environment: stg
+  stack: crm
   release_version: 4.0.9
   root_dir: /opt/redis
   data_dir: /opt/redis/data

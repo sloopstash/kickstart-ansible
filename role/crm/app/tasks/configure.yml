@@ -1,38 +1,48 @@
 # Configure App.
 - name: Configure App
   ansible.builtin.template:
-    src: app.conf.j2
-    dest: "{{conf_dir}}/app.conf"
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
     owner: root
     group: root
     mode: 0600
+    backup: false
+  loop:
+    - { src: "app.conf.j2", dest: "{{conf_dir}}/app.conf" }
+    - { src: "redis.conf.j2", dest: "{{conf_dir}}/redis.conf" }
   vars:
-    conf_dir: "{{app.source_dir}}/config"
     environment: "{{app.environment}}"
     external_domain: "{{app.external_domain}}"
+    source_dir: "{{app.source_dir}}"
+    conf_dir: "{{source_dir}}/config"
   tags:
     - configure
 
 # Configure Supervisor for App.
-- name: configure supervisor for app
+- name: Configure Supervisor for App
   ansible.builtin.template:
     src: supervisor.ini.j2
     dest: "{{init_conf_path}}"
     owner: root
     group: root
     mode: 0600
+    backup: false
   vars:
-    init_conf_path: "{{app.system_dir}}/supervisor.ini"
     source_dir: "{{app.source_dir}}"
     log_dir: "{{app.log_dir}}"
+    system_dir: "{{app.system_dir}}"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
   tags:
     - configure
 
 # Symlink Supervisor configuration.
 - name: Symlink Supervisor configuration
-  ansible.builtin.command: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/app.ini"
+  ansible.builtin.command:
+    cmd: "ln -sf {{init_conf_path}} {{supervisor_conf_dir}}/app.ini"
+    removes: "{{init_conf_path}}"
   vars:
-    init_conf_path: "{{app.system_dir}}/supervisor.ini"
-    supervisor_conf_dir: "/etc/supervisord.d"
+    system_dir: "{{app.system_dir}}"
+    supervisor_conf_dir: "{{system.supervisor.conf_dir}}"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
   tags:
     - configure

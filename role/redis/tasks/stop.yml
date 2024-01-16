@@ -1,11 +1,16 @@
 # Stop Redis.
 - name: Stop Redis
-  ansible.builtin.command: "{{item}}"
+  ansible.builtin.command:
+    cmd: "{{item}}"
+    removes: "{{init_conf_path}}"
   loop:
     - "{{supervisor_client_path}} stop redis"
     - "{{supervisor_client_path}} remove redis"
   vars:
-    supervisor_client_path: "/usr/bin/supervisorctl"
+    system_dir: "{{redis.system_dir}}"
+    supervisor_exec_dir: "{{system.supervisor.exec_dir}}"
+    supervisor_client_path: "{{supervisor_exec_dir}}/supervisorctl"
+    init_conf_path: "{{system_dir}}/supervisor.ini"
   register: status
   failed_when:
     - status.rc != 0

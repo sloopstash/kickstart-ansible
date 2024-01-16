@@ -1,5 +1,5 @@
 [program:app]
-command=/bin/bash -c "python init.py --port=2000"
+command=bash -c "python init.py --port=2000"
 process_name=%(program_name)s
 directory={{source_dir}}
 autorestart=false
