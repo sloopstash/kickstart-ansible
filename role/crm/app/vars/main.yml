@@ -16,3 +16,8 @@ app:
   system_dir: /opt/app/system
   repo_url: https://github.com/sloopstash/kickstart-flask
   revision: master
+  redis:
+    endpoint: redis
+  static:
+    endpoint: http://app-static.crm.sloopstash.stg:8001
+    

@@ -11,10 +11,12 @@
     - { src: "app.conf.j2", dest: "{{conf_dir}}/app.conf" }
     - { src: "redis.conf.j2", dest: "{{conf_dir}}/redis.conf" }
   vars:
-    environment: "{{app.environment}}"
+    _environment: "{{app.environment}}"
     external_domain: "{{app.external_domain}}"
     source_dir: "{{app.source_dir}}"
     conf_dir: "{{source_dir}}/config"
+    redis_endpoint: "{{app.redis.endpoint}}"
+    static_endpoint: "{{app.static.endpoint}}"
   tags:
     - configure
 
