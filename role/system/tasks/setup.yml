@@ -13,6 +13,21 @@
   tags:
     - setup
 
+# Remove Firewall service.
+- name: Remove Firewall service
+  ansible.builtin.command:
+    cmd: "{{item}}"
+    removes: /usr/sbin/firewalld
+  loop:
+    - systemctl stop firewalld.service
+    - systemctl disable firewalld.service
+  register: status
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
+  tags:
+    - setup
+
 # Enable netfilter Linux kernel module.
 - name: Enable netfilter Linux kernel module
   ansible.builtin.command:
