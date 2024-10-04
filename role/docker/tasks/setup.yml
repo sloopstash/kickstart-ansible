@@ -1,0 +1,82 @@
+# Install required system packages.
+- name: Install required system packages
+  become: true
+  yum:
+    name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+    state: present
+  tags:
+    - setup
+
+- name: Add Docker repository to package manager source list
+  become: true
+  yum_repository:
+    name: docker
+    description: Docker CE Stable Repository
+    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable 
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/centos/gpg
+  tags:
+    - setup
+
+# Install Docker, Docker CLI, and Containerd.
+- name: Install Docker, Docker CLI, and Containerd
+  become: true
+  yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+  tags:
+    - setup
+
+# Download and install Cgroup library.
+- name: Download Cgroup library
+  become: true
+  get_url:
+    url: https://repo.almalinux.org/almalinux/8/BaseOS/x86_64/os/Packages/libcgroup-0.41-19.el8.x86_64.rpm
+    dest: /tmp/libcgroup-0.41-19.el8.x86_64.rpm
+  tags:
+    - setup
+
+- name: Install Cgroup library
+  become: true
+  yum:
+    name: /tmp/libcgroup-0.41-19.el8.x86_64.rpm
+    state: present
+    disable_gpg_check: true
+  tags:
+    - setup
+
+# Download and install Docker CRI.
+- name: Download Docker CRI
+  become: true
+  get_url:
+    url: https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.14/cri-dockerd-0.3.14-3.el8.x86_64.rpm
+    dest: /tmp/cri-dockerd-0.3.14-3.el8.x86_64.rpm
+  tags:
+    - setup
+
+- name: Install Docker CRI
+  become: true
+  yum:
+    name: /tmp/cri-dockerd-0.3.14-3.el8.x86_64.rpm
+    state: present
+    disable_gpg_check: true
+  tags:
+    - setup
+
+# Enable and start Docker CRI service.
+- name: Enable and start Docker CRI service
+  become: true
+  systemd:
+    name: cri-docker
+    enabled: yes
+    state: started
+  tags:
+    - setup
+

@@ -1,0 +1,3 @@
+# Role variables.
+docker:
+  conf_dir: /etc/docker

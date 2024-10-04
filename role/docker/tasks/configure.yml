@@ -1,0 +1,76 @@
+# Configure Docker.
+- name: Configure Docker
+  become: true
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0600
+  tags:
+    - setup
+
+# Ensure /etc/systemd/system/docker.service.d directory exists.
+- name: Ensure /etc/systemd/system/docker.service.d directory exists
+  become: true
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    mode: '0755'
+  tags:
+    - setup
+
+# Create override.conf for Docker service.
+- name: Create override.conf for Docker service
+  become: true
+  template:
+    src: override.conf.j2
+    dest: /etc/systemd/system/docker.service.d/override.conf
+    mode: '0644'
+  tags:
+    - setup
+
+# Reload systemd to apply the Docker override configuration.
+- name: Reload systemd to apply the Docker override configuration
+  become: true
+  systemd:
+    daemon_reload: yes
+  tags:
+    - setup
+
+# Restart Docker service.
+- name: Restart Docker service
+  become: true
+  systemd:
+    name: docker.service
+    state: restarted
+  tags:
+    - setup
+
+
+# Modify Docker CRI client configuration.
+- name: Modify Docker CRI client configuration
+  become: true
+  copy:
+    content: |
+      runtime-endpoint: unix:///var/run/cri-dockerd.sock
+      image-endpoint: unix:///var/run/cri-dockerd.sock
+      timeout: 20
+      debug: false
+    dest: /etc/crictl.yaml
+    owner: root
+    group: root
+    mode: 0600
+  tags:
+    - setup
+
+
+# Enable and start Docker CRI service.
+- name: Enable and start Docker CRI service
+  become: true
+  systemd:
+    name: cri-docker
+    enabled: yes
+    state: restarted
+  tags:
+    - setup

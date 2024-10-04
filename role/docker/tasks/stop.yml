@@ -1,0 +1,13 @@
+# Stop Docker.
+- name: Stop Docker
+  become: true
+  command: systemctl stop docker.service
+  tags:
+    - stop
+
+# Stop cri-docker.
+- name: Stop cri-docker service
+  become: true
+  command: systemctl stop cri-docker.service
+  tags:
+    - stop

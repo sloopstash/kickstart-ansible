@@ -1,0 +1,7 @@
+- hosts: kubernetes_master
+  roles:
+    - docker
+
+- hosts: kubernetes_worker
+  roles:
+    - docker
