@@ -42,8 +42,6 @@
   register: kubernetes_worker_join_cmd
   run_once: true
   when: inventory_hostname in groups['kubernetes_master']
-  debug:
-    msg: "{{ kubernetes_worker_join_cmd.stdout }}"
   delegate_to: sloopstash-k8s-mtr-2
   tags:
     - configure
