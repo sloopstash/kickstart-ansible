@@ -1,4 +1,4 @@
-# Configure Docker.
+# Modify Docker daemon configuration.
 - name: Configure Docker
   become: true
   copy:
@@ -10,7 +10,7 @@
   tags:
     - setup
 
-# Ensure /etc/systemd/system/docker.service.d directory exists.
+# Override Docker service configuration in Systemd.
 - name: Ensure /etc/systemd/system/docker.service.d directory exists
   become: true
   file:
@@ -43,6 +43,7 @@
   become: true
   systemd:
     name: docker.service
+    enabled: yes
     state: restarted
   tags:
     - setup
@@ -51,18 +52,13 @@
 # Modify Docker CRI client configuration.
 - name: Modify Docker CRI client configuration
   become: true
-  copy:
-    content: |
-      runtime-endpoint: unix:///var/run/cri-dockerd.sock
-      image-endpoint: unix:///var/run/cri-dockerd.sock
-      timeout: 20
-      debug: false
+  template:
+    src: crictl.yaml.j2
     dest: /etc/crictl.yaml
-    owner: root
-    group: root
-    mode: 0600
+    mode: '0644'
   tags:
     - setup
+
 
 
 # Enable and start Docker CRI service.
