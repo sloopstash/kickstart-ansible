@@ -7,6 +7,6 @@ kubernetes:
   client:
     conf_dir: /home/vagrant/.kube
   network:
-    flannel: https://github.com/sloopstash/kickstart-kubernetes/raw/master/aws/ec2/network/flannel.yml
+    flannel: https://raw.githubusercontent.com/sloopstash/kickstart-kubernetes/master/cni/flannel/main.yml
     master_ip: 192.168.101.62
     worker_ip: 192.168.101.66

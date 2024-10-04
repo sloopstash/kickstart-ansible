@@ -10,15 +10,16 @@
   tags:
     - setup
 
-# Add Docker repository to package manager source list
+
 - name: Add Docker repository to package manager source list
   become: true
-  copy:
-    src: yum.repo
-    dest: /etc/yum.repos.d/docker.repo
-    owner: root
-    group: root
-    mode: 0600
+  yum_repository:
+    name: docker
+    description: Docker CE Stable Repository
+    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable 
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/centos/gpg
   tags:
     - setup
 
