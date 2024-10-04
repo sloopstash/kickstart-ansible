@@ -1,37 +1,13 @@
-# Install Docker.
-- name: Install Docker
-  command: amazon-linux-extras install docker -y
-  tags:
-    - setup
-
-# Configure Docker.
-- name: Configure Docker
-  copy:
-    src: docker/daemon.json
-    dest: "{{kubernetes.docker.conf_dir}}/daemon.json"
-    owner: root
-    group: root
-    mode: 0600
-  tags:
-    - setup
-
-# Enable Docker service at boot.
-- name: Enable Docker service at boot
-  command: "{{item}}"
-  loop:
-    - systemctl enable docker.service
-    - systemctl start docker.service
-  tags:
-    - setup
-
 # Enable netfilter Linux kernel module.
 - name: Enable netfilter Linux kernel module
+  become: true
   command: modprobe br_netfilter
   tags:
     - setup
 
 # Set required network and swap Linux kernel params.
 - name: Set required network and swap Linux kernel params
+  become: true
   copy:
     src: kernel.conf
     dest: /etc/sysctl.d/kubernetes.conf
@@ -43,12 +19,14 @@
 
 # Apply required network and swap Linux kernel params.
 - name: Apply required network and swap Linux kernel params
+  become: true
   command: sysctl --system
   tags:
     - setup
 
 # Add Kubernetes repository to package manager source list.
 - name: Add Kubernetes repository to package manager source list
+  become: true
   copy:
     src: yum.repo
     dest: /etc/yum.repos.d/kubernetes.repo
@@ -60,11 +38,12 @@
 
 # Install Kubernetes packages from repository.
 - name: Install Kubernetes packages from repository
+  become: true
   yum:
     name:
-      - kubelet-{{kubernetes.version}}
-      - kubeadm-{{kubernetes.version}}
-      - kubectl-{{kubernetes.version}}
+      - kubelet
+      - kubeadm
+      - kubectl
     state: present
     disable_excludes: kubernetes
   tags:
@@ -72,11 +51,12 @@
 
 # Create Kubernetes client configuration directory.
 - name: Create Kubernetes client configuration directory
+  become: true
   file:
     path: "{{kubernetes.client.conf_dir}}"
     state: directory
-    owner: ec2-user
-    group: ec2-user
+    owner: vagrant
+    group: vagrant
     recurse: true
     mode: 0755
   run_once: true
@@ -84,10 +64,36 @@
   tags:
     - setup
 
-# Install Git.
-- name: Install Git
-  yum:
-    name: git
+# Set private IP on Kubernetes master node in /etc/sysconfig/kubelet
+- name: Set private IP for Kubernetes master node
+  become: true
+  lineinfile:
+    path: /etc/sysconfig/kubelet
     state: present
+    regexp: '^KUBELET_EXTRA_ARGS='
+    line: 'KUBELET_EXTRA_ARGS=--node-ip={{kubernetes.network.master_ip}}'
+  when: inventory_hostname in groups['kubernetes_master']
+  tags:
+    - setup
+
+# Set private IP on Kubernetes worker node in /etc/sysconfig/kubelet
+- name: Set private IP for Kubernetes master node
+  become: true
+  lineinfile:
+    path: /etc/sysconfig/kubelet
+    state: present
+    regexp: '^KUBELET_EXTRA_ARGS='
+    line: 'KUBELET_EXTRA_ARGS=--node-ip={{kubernetes.network.worker_ip}}'
+  when: inventory_hostname in groups['kubernetes_worker']
+  tags:
+    - setup
+
+# Enable and Restart Kubelet service.
+- name: Restart Kubelet service
+  become: true
+  systemd:
+    name: kubelet
+    enabled: yes
+    state: restarted
   tags:
     - setup
