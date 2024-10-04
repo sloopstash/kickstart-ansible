@@ -69,14 +69,3 @@
     disable_gpg_check: true
   tags:
     - setup
-
-# Enable and start Docker CRI service.
-- name: Enable and start Docker CRI service
-  become: true
-  systemd:
-    name: cri-docker
-    enabled: yes
-    state: started
-  tags:
-    - setup
-
