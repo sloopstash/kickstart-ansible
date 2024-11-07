@@ -1,0 +1,6 @@
+# Stop cri-docker.
+- name: Stop cri-docker service
+  become: true
+  command: systemctl stop cri-docker.service
+  tags:
+    - stop

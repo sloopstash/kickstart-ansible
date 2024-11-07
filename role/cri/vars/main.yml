@@ -1,7 +1,7 @@
 # Role variables.
-docker:
+cri:
+  runtime: docker
   organization: sloopstash
   stack: null
-  release_version: 27.3.1
-  conf_dir: /etc/docker
+  release_version: 21
 

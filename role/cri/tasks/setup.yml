@@ -1,0 +1,35 @@
+# Download and install Cgroup library.
+- name: Download Cgroup library
+  become: true
+  get_url:
+    url: https://repo.almalinux.org/almalinux/8/BaseOS/x86_64/os/Packages/libcgroup-0.41-19.el8.x86_64.rpm
+    dest: /tmp/libcgroup-0.41-19.el8.x86_64.rpm
+  tags:
+    - setup
+
+- name: Install Cgroup library
+  become: true
+  yum:
+    name: /tmp/libcgroup-0.41-19.el8.x86_64.rpm
+    state: present
+    disable_gpg_check: true
+  tags:
+    - setup
+
+# Download and install Docker CRI.
+- name: Download Docker CRI
+  become: true
+  get_url:
+    url: https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.14/cri-dockerd-0.3.14-3.el8.x86_64.rpm
+    dest: /tmp/cri-dockerd-0.3.14-3.el8.x86_64.rpm
+  tags:
+    - setup
+
+- name: Install Docker CRI
+  become: true
+  yum:
+    name: /tmp/cri-dockerd-0.3.14-3.el8.x86_64.rpm
+    state: present
+    disable_gpg_check: true
+  tags:
+    - setup

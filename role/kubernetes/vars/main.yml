@@ -1,12 +1,20 @@
 # Role variables.
+system:
+  yum:
+    conf_dir: /etc/yum.repos.d
+  network:
+    kernel:
+      conf_dir: /etc/sysctl.d
 kubernetes:
-  version: 1.19.4
-  starter_kit_dir: /opt/kickstart-kubernetes
-  docker:
-    conf_dir: /etc/docker
+  organization: sloopstash
+  stack: null
+  release_version: 21
+  conf_dir: /etc/kubernetes
   client:
     conf_dir: /home/vagrant/.kube
+  kubelet:
+    conf_dir: /etc/sysconfig/kubelet
   network:
+    kubelet: 
+      conf_dir: /etc/sysconfig
     flannel: https://raw.githubusercontent.com/sloopstash/kickstart-kubernetes/master/cni/flannel/main.yml
-    master_ip: 192.168.101.62
-    worker_ip: 192.168.101.66

@@ -1,0 +1,19 @@
+# Modify Docker CRI client configuration.
+- name: Modify Docker CRI client configuration
+  become: true
+  template:
+    src: crictl.yaml.j2
+    dest: /etc/crictl.yaml
+    mode: '0644'
+  tags:
+    - setup
+
+# Enable and start Docker CRI service.
+- name: Enable and start Docker CRI service
+  become: true
+  systemd:
+    name: cri-docker
+    enabled: yes
+    state: restarted
+  tags:
+    - setup

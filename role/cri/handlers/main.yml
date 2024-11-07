@@ -1,0 +1,5 @@
+# Restart cri-docker.
+- name: Restart cri-docker service
+  command: systemctl restart cri-docker.service
+  tags:
+    - restart

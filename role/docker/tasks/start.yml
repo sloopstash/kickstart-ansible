@@ -4,10 +4,3 @@
   command: systemctl start docker.service
   tags:
     - start
-
-# Start cri-docker.
-- name: Start cri-docker service
-  become: true
-  command: systemctl start cri-docker.service
-  tags:
-    - start

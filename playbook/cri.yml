@@ -1,0 +1,7 @@
+- hosts: kubernetes_master
+  roles:
+    - cri
+
+- hosts: kubernetes_worker
+  roles:
+    - cri

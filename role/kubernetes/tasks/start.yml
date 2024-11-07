@@ -1,11 +1,6 @@
-# Start Docker.
-- name: Start Docker
-  command: systemctl start docker.service
-  tags:
-    - start
-
 # Start Kubernetes agent.
 - name: Start Kubernetes agent
+  become: true
   command: systemctl start kubelet.service
   tags:
     - start
