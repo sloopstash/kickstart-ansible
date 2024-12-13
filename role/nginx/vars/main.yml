@@ -10,7 +10,8 @@ nginx:
   stack: crm
   external_domain: sloopstash.stg
   internal_domain: sloopstash-stg.internal
-  release_version: 1.14.0
+  release_version: 1.24.0
+  enterprise_linux: 7
   root_dir: /opt/nginx
   log_dir: /opt/nginx/log
   conf_dir: /opt/nginx/conf

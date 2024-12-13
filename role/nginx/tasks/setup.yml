@@ -5,7 +5,8 @@
     state: present
   vars:
     release_version: "{{nginx.release_version}}"
-    download_url: "https://nginx.org/packages/rhel/7/x86_64/RPMS/nginx-{{release_version}}-1.el7_4.ngx.x86_64.rpm"
+    enterprise_linux: "{{nginx.enterprise_linux}}"
+    download_url: "https://nginx.org/packages/rhel/{{enterprise_linux}}/x86_64/RPMS/nginx-{{release_version}}-1.el{{enterprise_linux}}.ngx.x86_64.rpm"
   tags:
     - setup
 
