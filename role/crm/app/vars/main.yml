@@ -14,10 +14,9 @@ app:
   log_dir: /opt/app/log
   script_dir: /opt/app/script
   system_dir: /opt/app/system
-  repo_url: https://github.com/sloopstash/kickstart-flask
-  revision: master
+  repo_url: https://github.com/sloopstash/sloopstash-crm-app
+  revision: archive
   redis:
     endpoint: redis
   static:
     endpoint: http://app-static.crm.sloopstash.stg:8001
-    

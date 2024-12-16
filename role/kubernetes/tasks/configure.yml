@@ -80,7 +80,7 @@
 # Fetch App Git repository.
 - name: Fetch App Git repository
   git:
-    repo: https://github.com/sloopstash/kickstart-flask.git
+    repo: https://github.com/sloopstash/sloopstash-crm-app.git
     version: master
     dest: "{{kubernetes.starter_kit_dir}}/app"
     update: yes
