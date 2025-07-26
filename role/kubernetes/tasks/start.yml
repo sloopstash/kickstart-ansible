@@ -1,11 +1,7 @@
-# Start Docker.
-- name: Start Docker
-  command: systemctl start docker.service
-  tags:
-    - start
-
-# Start Kubernetes agent.
-- name: Start Kubernetes agent
-  command: systemctl start kubelet.service
+# Start Kubelet.
+- name: Start Kubelet
+  ansible.builtin.systemd:
+    name: kubelet.service
+    state: started
   tags:
     - start

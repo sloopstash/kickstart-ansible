@@ -1,3 +1,4 @@
 - hosts: app
   roles:
-    - role: app
+    - system
+    - app

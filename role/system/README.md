@@ -1,4 +1,3 @@
-System Ansible role
-===================
+## System Ansible role
+Deploy and manage operating system services in the Linux machine.
 
-Deploy and manage operating system services and resources in the machine.

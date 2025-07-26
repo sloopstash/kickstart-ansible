@@ -1,0 +1,13 @@
+[kubernetes_master]
+sloopstash-prd-k8s-mtr-1 ansible_host=192.168.201.61 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-prd-k8s-mtr-2 ansible_host=192.168.201.62 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-prd-k8s-mtr-3 ansible_host=192.168.201.63 ansible_port=22 ansible_user=vagrant ansible_become=true
+
+[kubernetes_worker]
+sloopstash-prd-k8s-wkr-1 ansible_host=192.168.201.64 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-prd-k8s-wkr-2 ansible_host=192.168.201.65 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-prd-k8s-wkr-3 ansible_host=192.168.201.66 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-prd-k8s-wkr-4 ansible_host=192.168.201.67 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-prd-k8s-wkr-5 ansible_host=192.168.201.68 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-prd-k8s-wkr-6 ansible_host=192.168.201.69 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-prd-k8s-wkr-7 ansible_host=192.168.201.70 ansible_port=22 ansible_user=vagrant ansible_become=true

@@ -1,13 +1,14 @@
-# Apply required Linux kernel params.
-- name: Apply required Linux kernel params
-  ansible.builtin.command: "sysctl -p {{kernel_conf_path}}"
-  vars:
-    organization: "{{system.organization}}"
-    kernel_conf_path: "/etc/sysctl.d/90-{{organization}}.conf"
+# Apply Linux kernel params.
+- name: Apply Linux kernel params
+  ansible.builtin.command:
+    cmd: "sysctl -p {{kernel_conf_path}}"
   register: status
   failed_when:
     - status.rc != 0
     - status.rc != 1
     - status.rc != 255
+  vars:
+    organization: "{{system.organization}}"
+    kernel_conf_path: "/etc/sysctl.d/90-{{organization}}.conf"
   tags:
     - configure

@@ -3,8 +3,8 @@ galaxy_info:
   author: Tuto
   company: SloopStash
   license: Apache License 2.0
-  description: Deploy and manage Redis service in the machine.
-  short_description: Deploy and manage Redis service in the machine.
+  description: Deploy and manage Redis in the Linux machine.
+  short_description: Deploy and manage Redis in the Linux machine.
   min_ansible_version: 2.10
 dependencies: []
 allow_duplicates: false

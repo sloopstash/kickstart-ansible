@@ -1,10 +1,13 @@
-# Role variables.
+# Set variables.
+system:
+  yum:
+    conf_dir: /etc/yum.repos.d
 kubernetes:
-  version: 1.19.4
-  starter_kit_dir: /opt/kickstart-kubernetes
-  docker:
-    conf_dir: /etc/docker
-  client:
-    conf_dir: /home/ec2-user/.kube
-  network:
-    flannel: https://github.com/sloopstash/kickstart-kubernetes/raw/master/aws/ec2/network/flannel.yml
+  organization: sloopstash
+  environment: stg
+  stack: container
+  release_version: 1.28
+  conf_dir: /etc/kubernetes
+  cni:
+    flannel:
+      template_url: https://raw.githubusercontent.com/sloopstash/kickstart-kubernetes/master/cni/flannel/main.yml

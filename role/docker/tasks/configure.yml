@@ -1,0 +1,46 @@
+# Configure Docker.
+- name: Configure Docker
+  ansible.builtin.template:
+    src: server.json.j2
+    dest: "{{server_conf_path}}"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  vars:
+    server_conf_path: "{{docker.conf_dir}}/daemon.json"
+  notify:
+    - Restart Docker
+  tags:
+    - configure
+
+# Create Systemd configuration directory for Docker.
+- name: Create Systemd configuration directory for Docker
+  ansible.builtin.file:
+    path: "{{systemd_conf_dir}}/system/docker.service.d"
+    state: directory
+    owner: root
+    group: root
+    recurse: true
+    mode: 0600
+  vars:
+    systemd_conf_dir: "{{system.systemd.conf_dir}}"
+  tags:
+    - configure
+
+# Configure Systemd for Docker.
+- name: Configure Systemd for Docker
+  ansible.builtin.template:
+    src: systemd.conf.j2
+    dest: "{{systemd_conf_dir}}/system/docker.service.d/override.conf"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  vars:
+    systemd_conf_dir: "{{system.systemd.conf_dir}}"
+  notify:
+    - Reload Systemd
+    - Restart Docker
+  tags:
+    - configure

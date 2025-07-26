@@ -1,0 +1,31 @@
+# Install Cgroup library.
+- name: Install Cgroup library
+  ansible.builtin.yum:
+    name: "{{download_url}}"
+    state: present
+  vars:
+    cgroup_release_version: "{{docker_cri.cgroup.release_version}}"
+    cgroup_enterprise_linux: "{{docker_cri.cgroup.enterprise_linux}}"
+    download_url: "https://repo.almalinux.org/almalinux/{{cgroup_enterprise_linux}}/BaseOS/x86_64/os/Packages/libcgroup-{{cgroup_release_version}}-19.el{{cgroup_enterprise_linux}}.x86_64.rpm"
+  tags:
+    - setup
+
+# Install Docker CRI.
+- name: Install Docker CRI
+  ansible.builtin.yum:
+    name: "{{download_url}}"
+    state: present
+  vars:
+    release_version: "{{docker_cri.release_version}}"
+    enterprise_linux: "{{docker_cri.enterprise_linux}}"
+    download_url: "https://github.com/Mirantis/cri-dockerd/releases/download/v{{release_version}}/cri-dockerd-{{release_version}}-3.el{{enterprise_linux}}.x86_64.rpm"
+  tags:
+    - setup
+
+# Enable Docker CRI service at boot.
+- name: Enable Docker CRI service at boot
+  ansible.builtin.systemd:
+    name: cri-docker.service
+    enabled: yes
+  tags:
+    - setup

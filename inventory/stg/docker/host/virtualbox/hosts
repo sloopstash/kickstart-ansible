@@ -1,0 +1,13 @@
+[docker_manager]
+sloopstash-stg-dkr-mgr-1 ansible_host=192.168.101.51 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-stg-dkr-mgr-2 ansible_host=192.168.101.52 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-stg-dkr-mgr-3 ansible_host=192.168.101.53 ansible_port=22 ansible_user=vagrant ansible_become=true
+
+[docker_worker]
+sloopstash-stg-dkr-wkr-1 ansible_host=192.168.101.54 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-stg-dkr-wkr-2 ansible_host=192.168.101.55 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-stg-dkr-wkr-3 ansible_host=192.168.101.56 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-stg-dkr-wkr-4 ansible_host=192.168.101.57 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-stg-dkr-wkr-5 ansible_host=192.168.101.58 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-stg-dkr-wkr-6 ansible_host=192.168.101.59 ansible_port=22 ansible_user=vagrant ansible_become=true
+sloopstash-stg-dkr-wkr-7 ansible_host=192.168.101.60 ansible_port=22 ansible_user=vagrant ansible_become=true

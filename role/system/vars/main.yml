@@ -3,10 +3,11 @@ system:
   infrastructure:
     type: on-premise
     provider: host
-    service: docker
+    service: virtualbox
     region: null
-  user: tuto
-  group: tuto
+    availability_zone: null
+  user: vagrant
+  group: vagrant
   kernel:
     vm.swappiness: 0
     vm.overcommit_memory: 1
@@ -19,8 +20,12 @@ system:
   security_limit:
     open_files: 65536
     memory_lock: unlimited
+  systemd:
+    conf_dir: /etc/systemd
   supervisor:
     conf_dir: /etc/supervisord.d
-    exec_dir: /usr/bin
+    exec_dir: /usr/local/bin
     conf_path: /etc/supervisord.conf
+  yum:
+    conf_dir: /etc/yum.repos.d
   organization: sloopstash

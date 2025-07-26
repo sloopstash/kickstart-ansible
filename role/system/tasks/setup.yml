@@ -1,26 +1,24 @@
-# Remove Postfix service.
-- name: Remove Postfix service
-  ansible.builtin.command:
-    cmd: "{{item}}"
-    removes: /sbin/postfix
-  loop:
-    - systemctl stop postfix.service
-    - systemctl disable postfix.service
-  register: status
-  failed_when:
-    - status.rc != 0
-    - status.rc != 1
-  tags:
-    - setup
-
 # Remove Firewall service.
 - name: Remove Firewall service
+  ansible.builtin.systemd:
+    name: firewalld.service
+    enabled: no
+    state: stopped
+  tags:
+    - setup
+
+# Set SELinux in permissive mode.
+- name: Set SELinux in permissive mode
+  ansible.posix.selinux:
+    policy: targeted
+    state: permissive
+  tags:
+    - setup
+
+# Disable Linux swap memory (temporary).
+- name: Disable Linux swap memory (temporary)
   ansible.builtin.command:
-    cmd: "{{item}}"
-    removes: /usr/sbin/firewalld
-  loop:
-    - systemctl stop firewalld.service
-    - systemctl disable firewalld.service
+    cmd: swapoff -a
   register: status
   failed_when:
     - status.rc != 0
@@ -28,8 +26,8 @@
   tags:
     - setup
 
-# Enable netfilter Linux kernel module.
-- name: Enable netfilter Linux kernel module
+# Enable bridge netfilter Linux kernel module (temporary).
+- name: Enable bridge netfilter Linux kernel module (temporary)
   ansible.builtin.command:
     cmd: modprobe br_netfilter
     removes: /bin/systemd
@@ -37,24 +35,5 @@
   failed_when:
     - status.rc != 0
     - status.rc != 1
-  tags:
-    - setup
-
-# Disable Linux swap memory.
-- name: Disable Linux swap memory
-  ansible.builtin.command: swapoff -a
-  register: status
-  failed_when:
-    - status.rc != 0
-    - status.rc != 1
-  tags:
-    - setup
-
-# Install Git.
-- name: Install Git
-  ansible.builtin.yum:
-    name:
-      - git
-    state: present
   tags:
     - setup

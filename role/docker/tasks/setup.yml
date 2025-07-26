@@ -1,0 +1,43 @@
+# Install system packages.
+- name: Install system packages
+  ansible.builtin.yum:
+    name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+    state: present
+  tags:
+    - setup
+
+# Add Docker repository to package manager source list.
+- name: Add Docker repository to package manager source list
+  ansible.builtin.command:
+    cmd: "{{item}}"
+  loop:
+    - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    - dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  register: status
+  failed_when:
+    - status.rc != 0
+    - status.rc != 1
+  tags:
+    - setup
+
+# Install Docker, Docker client, and Containerd.
+- name: Install Docker, Docker client, and Containerd
+  ansible.builtin.yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+  tags:
+    - setup
+
+# Enable Docker service at boot.
+- name: Enable Docker service at boot
+  ansible.builtin.systemd:
+    name: docker.service
+    enabled: yes
+  tags:
+    - setup

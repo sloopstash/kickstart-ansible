@@ -1,0 +1,9 @@
+# Set variables.
+system:
+  systemd:
+    conf_dir: /etc/systemd
+docker:
+  organization: sloopstash
+  environment: stg
+  stack: container
+  conf_dir: /etc/docker

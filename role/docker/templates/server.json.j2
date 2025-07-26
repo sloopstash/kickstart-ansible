@@ -1,0 +1,14 @@
+{
+  "hosts": [
+    "tcp://0.0.0.0:2375",
+    "unix:///var/run/docker.sock"
+  ],
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "containerd": "/run/containerd/containerd.sock",
+  "storage-driver": "overlay2",
+  "storage-opts": [],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  }
+}

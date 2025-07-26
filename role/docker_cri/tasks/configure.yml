@@ -1,0 +1,11 @@
+# Configure Docker CRI client.
+- name: Configure Docker CRI client
+  ansible.builtin.template:
+    src: client.yml.j2
+    dest: /etc/crictl.yaml
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  tags:
+    - configure

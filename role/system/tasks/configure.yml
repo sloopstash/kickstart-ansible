@@ -1,5 +1,5 @@
-# Set required Linux kernel params.
-- name: Set required Linux kernel params
+# Set Linux kernel params.
+- name: Set Linux kernel params
   ansible.builtin.template:
     src: kernel.conf.j2
     dest: "{{kernel_conf_path}}"
@@ -9,15 +9,15 @@
     backup: false
   vars:
     organization: "{{system.organization}}"
+    kernel_params: "{{system.kernel}}"
     kernel_conf_path: "/etc/sysctl.d/90-{{organization}}.conf"
-    params: "{{system.kernel}}"
   notify:
-    - Apply required Linux kernel params
+    - Apply Linux kernel params
   tags:
     - configure
 
-# Set required Linux security limit params.
-- name: Set required Linux security limit params
+# Set Linux security limit params.
+- name: Set Linux security limit params
   ansible.builtin.template:
     src: security-limit.conf.j2
     dest: "{{security_limit_conf_path}}"
@@ -27,9 +27,9 @@
     backup: false
   vars:
     organization: "{{system.organization}}"
-    security_limit_conf_path: "/etc/security/limits.d/10-{{organization}}.conf"
     system_user: "{{system.user}}"
-    params: "{{system.security_limit}}"
+    security_limit_params: "{{system.security_limit}}"
+    security_limit_conf_path: "/etc/security/limits.d/10-{{organization}}.conf"
   tags:
     - configure
 

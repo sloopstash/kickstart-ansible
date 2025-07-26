@@ -1,7 +1,13 @@
 - hosts: kubernetes_master
   roles:
+    - system
+    - docker
+    - docker_cri
     - kubernetes
 
 - hosts: kubernetes_worker
   roles:
+    - system
+    - docker
+    - docker_cri
     - kubernetes

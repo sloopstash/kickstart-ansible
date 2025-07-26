@@ -1,4 +1,3 @@
-Kubernetes Role
-================
+## Kubernetes Ansible role
+Deploy and manage Kubernetes in the Linux machine.
 
-A role to manage Kubernetes cluster.

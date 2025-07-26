@@ -1,0 +1,7 @@
+# Start Docker.
+- name: Start Docker
+  ansible.builtin.systemd:
+    name: docker.service
+    state: started
+  tags:
+    - start

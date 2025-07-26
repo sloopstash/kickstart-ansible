@@ -1,11 +1,7 @@
-# Restart Docker.
-- name: Restart Docker
-  command: systemctl restart docker.service
+# Restart Kubelet.
+- name: Restart Kubelet
+  ansible.builtin.systemd:
+    name: kubelet.service
+    state: restarted
   tags:
-    - restart
-
-# Restart Kubernetes agent.
-- name: Restart Kubernetes agent
-  command: systemctl restart kubelet.service
-  tags:
-    - restart
+    - configure

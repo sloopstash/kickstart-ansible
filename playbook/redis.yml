@@ -1,3 +1,4 @@
 - hosts: redis
   roles:
-    - role: redis
+    - system
+    - redis

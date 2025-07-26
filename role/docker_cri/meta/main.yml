@@ -1,0 +1,10 @@
+galaxy_info:
+  role_name: docker_cri
+  author: Tuto
+  company: SloopStash
+  license: Apache License 2.0
+  description: Deploy and manage Docker CRI for Kubernetes in the Linux machine.
+  short_description: Deploy and manage Docker CRI for Kubernetes in the Linux machine.
+  min_ansible_version: 2.10
+dependencies: []
+allow_duplicates: false
