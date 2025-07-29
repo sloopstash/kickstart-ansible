@@ -29,18 +29,19 @@
   ansible.builtin.copy:
     src: "{{admin_conf_path}}"
     dest: "{{client_conf_path}}"
-    owner: vagrant
-    group: vagrant
+    owner: "{{system_user}}"
+    group: "{{system_group}}"
     mode: 0600
     backup: false
-    remote_src: yes
-  run_once: true
+    remote_src: true
   when:
     - inventory_hostname in groups['kubernetes_master']
     - "'-mtr-1' in inventory_hostname"
   vars:
+    system_user: "{{system.user}}"
+    system_group: "{{system.group}}"
     admin_conf_path: "{{kubernetes.conf_dir}}/admin.conf"
-    client_conf_path: /home/vagrant/.kube/config
+    client_conf_path: /home/{{system_user}}/.kube/config
   tags:
     - configure
 
@@ -48,11 +49,14 @@
 - name: Create Flannel network in Kubernetes cluster
   ansible.builtin.command:
     cmd: "kubectl apply -f {{kubernetes.cni.flannel.template_url}}"
-  become_user: vagrant
+  become: true
+  become_user: "{{system_user}}"
   run_once: true
   when:
     - inventory_hostname in groups['kubernetes_master']
     - "'-mtr-1' in inventory_hostname"
+  vars:
+    system_user: "{{system.user}}"
   tags:
     - configure
 
@@ -60,23 +64,23 @@
 - name: Create bootstrap token in Kubernetes cluster
   ansible.builtin.command:
     cmd: kubeadm token create --print-join-command
-  become_user: vagrant
   run_once: true
   when:
     - inventory_hostname in groups['kubernetes_master']
     - "'-mtr-1' in inventory_hostname"
-  register: kubernetes_node_join_command
+  register: node_join_command
   tags:
     - configure
 
 # Join Kubernetes worker node to the cluster.
 - name: Join Kubernetes worker node to the cluster
   ansible.builtin.command:
-    cmd: "{{hostvars['sloopstash-{{environment}}-k8s-mtr-1']['kubernetes_node_join_command']['stdout']}} --cri-socket=unix:///var/run/cri-dockerd.sock"
+    cmd: "{{hostvars['sloopstash-stg-k8s-mtr-1']['node_join_command']['stdout']}} --cri-socket=unix:///var/run/cri-dockerd.sock"
     creates: "{{conf_dir}}/kubelet.conf"
   run_once: true
   when: inventory_hostname in groups['kubernetes_worker']
   vars:
+    environment: "{{kubernetes.environment}}"
     conf_dir: "{{kubernetes.conf_dir}}"
   tags:
     - configure

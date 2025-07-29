@@ -2,6 +2,8 @@
 system:
   systemd:
     conf_dir: /etc/systemd
+  yum:
+    conf_dir: /etc/yum.repos.d
 docker:
   organization: sloopstash
   environment: stg

@@ -6,6 +6,6 @@ Please refer to the [documentation](https://sloopstash.com/documentation/toolkit
 
 
 ## Get support
-- [Issues](https://github.com/sloopstash/kickstart-docker/issues)
+- [Issues](https://github.com/sloopstash/kickstart-ansible/issues)
 - [Contact us](https://sloopstash.com/contact.html)
 

@@ -2,6 +2,7 @@
 - name: Install Cgroup library
   ansible.builtin.yum:
     name: "{{download_url}}"
+    disable_gpg_check: true
     state: present
   vars:
     cgroup_release_version: "{{docker_cri.cgroup.release_version}}"
@@ -14,6 +15,7 @@
 - name: Install Docker CRI
   ansible.builtin.yum:
     name: "{{download_url}}"
+    disable_gpg_check: true
     state: present
   vars:
     release_version: "{{docker_cri.release_version}}"
@@ -26,6 +28,6 @@
 - name: Enable Docker CRI service at boot
   ansible.builtin.systemd:
     name: cri-docker.service
-    enabled: yes
+    enabled: true
   tags:
     - setup

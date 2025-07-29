@@ -2,7 +2,7 @@
 - name: Remove Firewall service
   ansible.builtin.systemd:
     name: firewalld.service
-    enabled: no
+    enabled: true
     state: stopped
   tags:
     - setup
@@ -19,21 +19,13 @@
 - name: Disable Linux swap memory (temporary)
   ansible.builtin.command:
     cmd: swapoff -a
-  register: status
-  failed_when:
-    - status.rc != 0
-    - status.rc != 1
   tags:
     - setup
 
-# Enable bridge netfilter Linux kernel module (temporary).
-- name: Enable bridge netfilter Linux kernel module (temporary)
-  ansible.builtin.command:
-    cmd: modprobe br_netfilter
-    removes: /bin/systemd
-  register: status
-  failed_when:
-    - status.rc != 0
-    - status.rc != 1
+# Enable bridge netfilter Linux kernel module.
+- name: Enable bridge netfilter Linux kernel module
+  community.general.modprobe:
+    name: br_netfilter
+    state: present
   tags:
     - setup

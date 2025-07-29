@@ -1,5 +1,7 @@
 # Set variables.
 system:
+  user: vagrant
+  group: vagrant
   yum:
     conf_dir: /etc/yum.repos.d
 kubernetes:

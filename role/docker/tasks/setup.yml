@@ -11,15 +11,15 @@
 
 # Add Docker repository to package manager source list.
 - name: Add Docker repository to package manager source list
-  ansible.builtin.command:
-    cmd: "{{item}}"
-  loop:
-    - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    - dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  register: status
-  failed_when:
-    - status.rc != 0
-    - status.rc != 1
+  ansible.builtin.template:
+    src: yum.repo.j2
+    dest: "{{yum_conf_dir}}/docker.repo"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  vars:
+    yum_conf_dir: "{{system.yum.conf_dir}}"
   tags:
     - setup
 
@@ -38,6 +38,6 @@
 - name: Enable Docker service at boot
   ansible.builtin.systemd:
     name: docker.service
-    enabled: yes
+    enabled: true
   tags:
     - setup

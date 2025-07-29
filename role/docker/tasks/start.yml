@@ -2,6 +2,7 @@
 - name: Start Docker
   ansible.builtin.systemd:
     name: docker.service
+    daemon_reload: true
     state: started
   tags:
     - start

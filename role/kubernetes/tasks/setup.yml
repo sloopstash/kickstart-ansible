@@ -29,6 +29,24 @@
 - name: Enable Kubelet service at boot
   ansible.builtin.systemd:
     name: kubelet.service
-    enabled: yes
+    enabled: true
+  tags:
+    - setup
+
+# Create Kubernetes client configuration directory.
+- name: Create Kubernetes client configuration directory
+  ansible.builtin.file:
+    path: "{{client_conf_dir}}"
+    owner: "{{system_user}}"
+    group: "{{system_group}}"
+    mode: 0700
+    state: directory
+  when:
+    - inventory_hostname in groups['kubernetes_master']
+    - "'-mtr-2' in inventory_hostname"
+  vars:
+    system_user: "{{system.user}}"
+    system_group: "{{system.group}}"
+    client_conf_dir: /home/{{system_user}}/.kube
   tags:
     - setup
