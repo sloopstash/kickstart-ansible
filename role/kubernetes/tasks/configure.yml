@@ -18,7 +18,8 @@
   run_once: true
   when:
     - inventory_hostname in groups['kubernetes_master']
-    - "'-mtr-1' in inventory_hostname"
+    - "'-mtr-' in inventory_hostname"
+    - inventory_hostname | regex_search('-1$')
   vars:
     admin_conf_path: "{{kubernetes.conf_dir}}/admin.conf"
   tags:
@@ -34,9 +35,11 @@
     mode: 0600
     backup: false
     remote_src: true
+  run_once: true
   when:
     - inventory_hostname in groups['kubernetes_master']
-    - "'-mtr-1' in inventory_hostname"
+    - "'-mtr-' in inventory_hostname"
+    - inventory_hostname | regex_search('-1$')
   vars:
     system_user: "{{system.user}}"
     system_group: "{{system.group}}"
@@ -54,7 +57,8 @@
   run_once: true
   when:
     - inventory_hostname in groups['kubernetes_master']
-    - "'-mtr-1' in inventory_hostname"
+    - "'-mtr-' in inventory_hostname"
+    - inventory_hostname | regex_search('-1$')
   vars:
     system_user: "{{system.user}}"
   tags:
@@ -67,20 +71,27 @@
   run_once: true
   when:
     - inventory_hostname in groups['kubernetes_master']
-    - "'-mtr-1' in inventory_hostname"
+    - "'-mtr-' in inventory_hostname"
+    - inventory_hostname | regex_search('-1$')
   register: node_join_command
+  tags:
+    - configure
+
+# Add temp node to Ansible inventory.
+- name: Add temp node to Ansible inventory
+  ansible.builtin.add_host:
+    name: temp-node
+    kubernetes_node_join_command: "{{node_join_command}}"
   tags:
     - configure
 
 # Join Kubernetes worker node to the cluster.
 - name: Join Kubernetes worker node to the cluster
   ansible.builtin.command:
-    cmd: "{{hostvars['sloopstash-stg-k8s-mtr-1']['node_join_command']['stdout']}} --cri-socket=unix:///var/run/cri-dockerd.sock"
+    cmd: "{{hostvars['temp-node'].kubernetes_node_join_command.stdout}} --cri-socket=unix:///var/run/cri-dockerd.sock"
     creates: "{{conf_dir}}/kubelet.conf"
-  run_once: true
   when: inventory_hostname in groups['kubernetes_worker']
   vars:
-    environment: "{{kubernetes.environment}}"
     conf_dir: "{{kubernetes.conf_dir}}"
   tags:
     - configure

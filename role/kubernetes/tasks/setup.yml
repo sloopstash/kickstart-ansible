@@ -41,9 +41,11 @@
     group: "{{system_group}}"
     mode: 0700
     state: directory
+  run_once: true
   when:
     - inventory_hostname in groups['kubernetes_master']
-    - "'-mtr-2' in inventory_hostname"
+    - "'-mtr-' in inventory_hostname"
+    - inventory_hostname | regex_search('-1$')
   vars:
     system_user: "{{system.user}}"
     system_group: "{{system.group}}"
