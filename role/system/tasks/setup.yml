@@ -2,7 +2,7 @@
 - name: Remove Firewall service
   ansible.builtin.systemd:
     name: firewalld.service
-    enabled: true
+    enabled: false
     state: stopped
   tags:
     - setup

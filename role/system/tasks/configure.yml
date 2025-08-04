@@ -1,7 +1,22 @@
+# Load Linux kernel modules.
+- name: Load Linux kernel modules
+  ansible.builtin.template:
+    src: kernel/module.conf.j2
+    dest: "{{kernel_module_conf_path}}"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  vars:
+    organization: "{{system.organization}}"
+    kernel_module_conf_path: "/etc/modules-load.d/{{organization}}.conf"
+  tags:
+    - configure
+
 # Set Linux kernel params.
 - name: Set Linux kernel params
   ansible.builtin.template:
-    src: kernel.conf.j2
+    src: kernel/param.conf.j2
     dest: "{{kernel_conf_path}}"
     owner: root
     group: root
@@ -9,7 +24,7 @@
     backup: false
   vars:
     organization: "{{system.organization}}"
-    kernel_params: "{{system.kernel}}"
+    kernel_params: "{{system.kernel.param}}"
     kernel_conf_path: "/etc/sysctl.d/90-{{organization}}.conf"
   notify:
     - Apply Linux kernel params
@@ -28,7 +43,7 @@
   vars:
     organization: "{{system.organization}}"
     system_user: "{{system.user}}"
-    security_limit_params: "{{system.security_limit}}"
+    security_limit_params: "{{system.security_limit.param}}"
     security_limit_conf_path: "/etc/security/limits.d/10-{{organization}}.conf"
   tags:
     - configure
