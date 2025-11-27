@@ -1,8 +1,8 @@
-# SloopStash Ansible starter-kit
+# SloopStash Ansible kit
 
 
 ## Getting started
-Please refer to the [documentation](https://sloopstash.com/documentation/toolkit/configuration-management/ansible/index.html) for detailed instructions on how to get started with SloopStash Ansible starter-kit.
+Please refer to the [documentation](https://sloopstash.com/documentation/toolkit/configuration-management/ansible/index.html) for detailed instructions on how to get started with SloopStash Ansible kit.
 
 
 ## Get support
