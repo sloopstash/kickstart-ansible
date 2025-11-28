@@ -3,7 +3,7 @@
   ansible.builtin.lineinfile:
     path: /etc/sysconfig/kubelet
     regexp: "^KUBELET_EXTRA_ARGS="
-    line: "KUBELET_EXTRA_ARGS=--node-ip={{ansible_eth1.ipv4.address}}"
+    line: "KUBELET_EXTRA_ARGS=--node-ip={{ansible_default_ipv4.address}}"
     state: present
   notify:
     - Restart Kubelet
@@ -13,7 +13,7 @@
 # Initialize Kubernetes cluster.
 - name: Initialize Kubernetes cluster
   ansible.builtin.command:
-    cmd: "kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address={{ansible_eth1.ipv4.address}} --cri-socket=unix:///var/run/cri-dockerd.sock"
+    cmd: "kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address={{ansible_default_ipv4.address}} --cri-socket=unix:///var/run/cri-dockerd.sock"
     creates: "{{admin_conf_path}}"
   run_once: true
   when:

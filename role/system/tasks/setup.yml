@@ -5,7 +5,7 @@
     enabled: false
     state: stopped
   when:
-    - ansible_distribution == AlmaLinux
+    - ansible_distribution == 'AlmaLinux'
     - ansible_distribution_major_version == 9
   tags:
     - setup

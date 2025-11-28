@@ -1,8 +1,0 @@
-- hosts: nginx
-  roles:
-    - role: system
-    - role: app
-      tags:
-        - setup
-        - update
-    - role: nginx
