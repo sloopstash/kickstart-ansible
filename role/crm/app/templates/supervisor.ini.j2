@@ -1,7 +1,0 @@
-[program:app]
-command=bash -c "python init.py --port=2000"
-process_name=%(program_name)s
-directory={{source_dir}}
-autorestart=false
-stdout_logfile={{log_dir}}/stdout.log
-stderr_logfile={{log_dir}}/stderr.log

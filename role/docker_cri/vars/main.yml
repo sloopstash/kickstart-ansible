@@ -3,8 +3,7 @@ docker_cri:
   organization: sloopstash
   environment: stg
   stack: container
-  release_version: 0.3.14
-  enterprise_linux: 8
+  release_version: 0.4.3
   cgroup:
     release_version: 0.41
     enterprise_linux: 8

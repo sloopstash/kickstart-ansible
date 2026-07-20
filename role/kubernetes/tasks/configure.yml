@@ -3,8 +3,10 @@
   ansible.builtin.lineinfile:
     path: /etc/sysconfig/kubelet
     regexp: "^KUBELET_EXTRA_ARGS="
-    line: "KUBELET_EXTRA_ARGS=--node-ip={{ansible_default_ipv4.address}}"
+    line: "KUBELET_EXTRA_ARGS=--node-ip={{node_ip_address}}"
     state: present
+  vars:
+    node_ip_address: "{{ansible_eth1.ipv4.address if system.network.host.interface == 'eth1' else ansible_default_ipv4.address}}"
   notify:
     - Restart Kubelet
   tags:
@@ -13,7 +15,7 @@
 # Initialize Kubernetes cluster.
 - name: Initialize Kubernetes cluster
   ansible.builtin.command:
-    cmd: "kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address={{ansible_default_ipv4.address}} --cri-socket=unix:///var/run/cri-dockerd.sock"
+    cmd: "kubeadm init --pod-network-cidr={{pod_network_cidr}} --apiserver-advertise-address={{node_ip_address}} --cri-socket=unix:///var/run/cri-dockerd.sock"
     creates: "{{admin_conf_path}}"
   run_once: true
   when:
@@ -21,6 +23,8 @@
     - "'-mtr-' in inventory_hostname"
     - inventory_hostname | regex_search('-1$')
   vars:
+    node_ip_address: "{{ansible_eth1.ipv4.address if system.network.host.interface == 'eth1' else ansible_default_ipv4.address}}"
+    pod_network_cidr: "{{kubernetes.cni.calico.pod_network_cidr if kubernetes.cni.driver == 'calico' else kubernetes.cni.flannel.pod_network_cidr}}"
     admin_conf_path: "{{kubernetes.conf_dir}}/admin.conf"
   tags:
     - configure
@@ -44,14 +48,14 @@
     system_user: "{{system.user}}"
     system_group: "{{system.group}}"
     admin_conf_path: "{{kubernetes.conf_dir}}/admin.conf"
-    client_conf_path: /home/{{system_user}}/.kube/config
+    client_conf_path: "/home/{{system_user}}/.kube/config"
   tags:
     - configure
 
-# Create Flannel network in Kubernetes cluster.
-- name: Create Flannel network in Kubernetes cluster
+# Deploy CNI network driver in Kubernetes cluster.
+- name: Deploy CNI network driver in Kubernetes cluster
   ansible.builtin.command:
-    cmd: "kubectl apply -f {{kubernetes.cni.flannel.template_url}}"
+    cmd: "kubectl apply -f {{cni_template_url}}"
   become: true
   become_user: "{{system_user}}"
   run_once: true
@@ -61,6 +65,7 @@
     - inventory_hostname | regex_search('-1$')
   vars:
     system_user: "{{system.user}}"
+    cni_template_url: "{{kubernetes.cni.calico.template_url if kubernetes.cni.driver == 'calico' else kubernetes.cni.flannel.template_url}}"
   tags:
     - configure
 

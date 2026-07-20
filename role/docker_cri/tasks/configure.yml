@@ -1,3 +1,45 @@
+# Configure Systemd for Docker CRI (service).
+- name: Configure Systemd for Docker CRI (service)
+  ansible.builtin.template:
+    src: systemd/service.conf.j2
+    dest: "{{systemd_lib_dir}}/system/cri-docker.service"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  vars:
+    systemd_lib_dir: "{{system.systemd.lib_dir}}"
+  notify:
+    - Reload Systemd
+    - Restart Docker CRI
+  tags:
+    - configure
+
+# Configure Systemd for Docker CRI (socket).
+- name: Configure Systemd for Docker CRI (socket)
+  ansible.builtin.template:
+    src: systemd/socket.conf.j2
+    dest: "{{systemd_lib_dir}}/system/cri-docker.socket"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  vars:
+    systemd_lib_dir: "{{system.systemd.lib_dir}}"
+  notify:
+    - Reload Systemd
+    - Restart Docker CRI
+  tags:
+    - configure
+
+# Enable Docker CRI service at boot.
+- name: Enable Docker CRI service at boot
+  ansible.builtin.systemd:
+    name: cri-docker.service
+    enabled: true
+  tags:
+    - configure
+
 # Configure Docker CRI client.
 - name: Configure Docker CRI client
   ansible.builtin.template:

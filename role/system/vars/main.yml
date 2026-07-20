@@ -6,8 +6,8 @@ system:
     service: virtualbox
     region: null
     availability_zone: null
-  user: vagrant
-  group: vagrant
+  user: tuto
+  group: tuto
   kernel:
     param:
       vm.swappiness: 0
@@ -23,6 +23,7 @@ system:
       nofile: 65536
       memlock: unlimited
   systemd:
+    lib_dir: /usr/lib/systemd
     conf_dir: /etc/systemd
   supervisor:
     conf_dir: /etc/supervisord.d

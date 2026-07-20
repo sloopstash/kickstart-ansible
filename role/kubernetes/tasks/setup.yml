@@ -20,6 +20,7 @@
       - kubelet
       - kubeadm
       - kubectl
+      - cri-tools
     disable_excludes: kubernetes
     state: present
   tags:
@@ -49,6 +50,6 @@
   vars:
     system_user: "{{system.user}}"
     system_group: "{{system.group}}"
-    client_conf_dir: /home/{{system_user}}/.kube
+    client_conf_dir: "/home/{{system_user}}/.kube"
   tags:
     - setup

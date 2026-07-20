@@ -1,0 +1,13 @@
+[kubernetes_master]
+sloopstash-prd-k8s-mtr-1 ansible_host=10.1.1.101 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-k8s-mtr-2 ansible_host=10.1.1.102 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-k8s-mtr-3 ansible_host=10.1.1.103 ansible_port=22 ansible_user=tuto ansible_become=true
+
+[kubernetes_worker]
+sloopstash-prd-k8s-wkr-1 ansible_host=10.1.1.104 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-k8s-wkr-2 ansible_host=10.1.1.105 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-k8s-wkr-3 ansible_host=10.1.1.106 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-k8s-wkr-4 ansible_host=10.1.1.107 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-k8s-wkr-5 ansible_host=10.1.1.108 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-k8s-wkr-6 ansible_host=10.1.1.109 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-k8s-wkr-7 ansible_host=10.1.1.110 ansible_port=22 ansible_user=tuto ansible_become=true

@@ -1,0 +1,13 @@
+[docker_manager]
+sloopstash-prd-dkr-mgr-1 ansible_host=10.1.1.51 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-dkr-mgr-2 ansible_host=10.1.1.52 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-dkr-mgr-3 ansible_host=10.1.1.53 ansible_port=22 ansible_user=tuto ansible_become=true
+
+[docker_worker]
+sloopstash-prd-dkr-wkr-1 ansible_host=10.1.1.54 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-dkr-wkr-2 ansible_host=10.1.1.55 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-dkr-wkr-3 ansible_host=10.1.1.56 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-dkr-wkr-4 ansible_host=10.1.1.57 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-dkr-wkr-5 ansible_host=10.1.1.58 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-dkr-wkr-6 ansible_host=10.1.1.59 ansible_port=22 ansible_user=tuto ansible_become=true
+sloopstash-prd-dkr-wkr-7 ansible_host=10.1.1.60 ansible_port=22 ansible_user=tuto ansible_become=true

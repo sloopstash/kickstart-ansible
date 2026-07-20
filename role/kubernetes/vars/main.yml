@@ -1,15 +1,23 @@
 # Set variables.
 system:
-  user: vagrant
-  group: vagrant
+  user: tuto
+  group: tuto
   yum:
     conf_dir: /etc/yum.repos.d
+  network:
+    host:
+      interface: eth0
 kubernetes:
   organization: sloopstash
   environment: stg
   stack: container
-  release_version: 1.28
+  release_version: 1.36
   conf_dir: /etc/kubernetes
   cni:
+    driver: calico
     flannel:
-      template_url: https://raw.githubusercontent.com/sloopstash/kickstart-kubernetes/master/cni/flannel/main.yml
+      pod_network_cidr: 10.244.0.0/16
+      template_url: https://raw.githubusercontent.com/sloopstash/kickstart-kubernetes/master/cni/flannel.yml
+    calico:
+      pod_network_cidr: 10.1.0.0/16
+      template_url: https://raw.githubusercontent.com/sloopstash/kickstart-kubernetes/master/cni/calico.yml
