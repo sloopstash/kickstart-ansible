@@ -21,7 +21,6 @@
     enabled: false
   when:
     - ansible_distribution == 'AlmaLinux'
-    - ansible_distribution_major_version == 9
   tags:
     - setup
 
@@ -43,7 +42,7 @@
 # Disable Linux swap memory (permanent).
 - name: Disable Linux swap memory (permanent)
   ansible.posix.mount:
-    name: swap
+    path: none
     fstype: swap
     state: absent
   tags:
