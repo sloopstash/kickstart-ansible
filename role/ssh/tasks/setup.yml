@@ -1,0 +1,7 @@
+# Install OpenSSH.
+- name: Install OpenSSH
+  ansible.builtin.yum:
+    name: openssh-server
+    state: present
+  tags:
+    - setup

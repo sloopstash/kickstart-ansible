@@ -1,5 +1,5 @@
-# Stop Kubelet.
-- name: Stop Kubelet
+# Stop Kubelet service.
+- name: Stop Kubelet service
   ansible.builtin.systemd:
     name: kubelet.service
     state: stopped

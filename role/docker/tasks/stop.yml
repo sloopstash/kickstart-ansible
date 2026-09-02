@@ -1,5 +1,5 @@
-# Stop Docker.
-- name: Stop Docker
+# Stop Docker service.
+- name: Stop Docker service
   ansible.builtin.systemd:
     name: docker.service
     state: stopped

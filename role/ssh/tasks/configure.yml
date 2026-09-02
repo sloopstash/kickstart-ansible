@@ -1,0 +1,16 @@
+# Configure SSH.
+- name: Configure SSH
+  ansible.builtin.template:
+    src: server.conf.j2
+    dest: "{{server_conf_path}}"
+    owner: root
+    group: root
+    mode: 0600
+    backup: false
+  vars:
+    organization: "{{system.organization}}"
+    server_conf_path: "{{ssh.conf_dir}}/sshd_config.d/{{organization}}.conf"
+  notify:
+    - Restart SSH service
+  tags:
+    - configure

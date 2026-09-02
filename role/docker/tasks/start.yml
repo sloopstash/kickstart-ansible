@@ -1,5 +1,5 @@
-# Start Docker.
-- name: Start Docker
+# Start Docker service.
+- name: Start Docker service
   ansible.builtin.systemd:
     name: docker.service
     daemon_reload: true

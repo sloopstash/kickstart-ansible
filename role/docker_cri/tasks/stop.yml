@@ -1,5 +1,5 @@
-# Stop Docker CRI.
-- name: Stop Docker CRI
+# Stop Docker CRI service.
+- name: Stop Docker CRI service
   ansible.builtin.systemd:
     name: cri-docker.service
     state: stopped

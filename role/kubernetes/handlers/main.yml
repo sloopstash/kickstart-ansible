@@ -1,5 +1,5 @@
-# Restart Kubelet.
-- name: Restart Kubelet
+# Restart Kubelet service.
+- name: Restart Kubelet service
   ansible.builtin.systemd:
     name: kubelet.service
     state: restarted

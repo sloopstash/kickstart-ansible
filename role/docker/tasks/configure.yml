@@ -10,7 +10,7 @@
   vars:
     server_conf_path: "{{docker.conf_dir}}/daemon.json"
   notify:
-    - Restart Docker
+    - Restart Docker service
   tags:
     - configure
 
@@ -40,7 +40,7 @@
   vars:
     systemd_conf_dir: "{{system.systemd.conf_dir}}"
   notify:
-    - Reload Systemd
-    - Restart Docker
+    - Reload Systemd service
+    - Restart Docker service
   tags:
     - configure

@@ -1,12 +1,12 @@
-# Reload Systemd.
-- name: Reload Systemd
+# Reload Systemd service.
+- name: Reload Systemd service
   ansible.builtin.systemd:
     daemon_reload: true
   tags:
     - configure
 
-# Restart Docker CRI.
-- name: Restart Docker CRI
+# Restart Docker CRI service.
+- name: Restart Docker CRI service
   ansible.builtin.systemd:
     name: cri-docker.service
     state: restarted

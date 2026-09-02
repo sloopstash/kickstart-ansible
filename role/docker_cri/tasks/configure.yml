@@ -10,8 +10,8 @@
   vars:
     systemd_lib_dir: "{{system.systemd.lib_dir}}"
   notify:
-    - Reload Systemd
-    - Restart Docker CRI
+    - Reload Systemd service
+    - Restart Docker CRI service
   tags:
     - configure
 
@@ -27,8 +27,8 @@
   vars:
     systemd_lib_dir: "{{system.systemd.lib_dir}}"
   notify:
-    - Reload Systemd
-    - Restart Docker CRI
+    - Reload Systemd service
+    - Restart Docker CRI service
   tags:
     - configure
 

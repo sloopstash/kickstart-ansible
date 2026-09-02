@@ -1,0 +1,3 @@
+# Set variables.
+ssh:
+  conf_dir: /etc/ssh

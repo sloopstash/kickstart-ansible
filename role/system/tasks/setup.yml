@@ -1,9 +1,24 @@
-# Remove Firewall service.
-- name: Remove Firewall service
+# Set timezone to UTC.
+- name: Set timezone to UTC
+  community.general.timezone:
+    name: UTC
+  tags:
+    - setup
+
+# Update installed packages.
+# - name: Update installed packages
+#   ansible.builtin.yum:
+#     name: '*'
+#     state: latest
+#     update_cache: yes
+#   tags:
+#     - setup
+
+# Disable Firewall service at boot.
+- name: Disable Firewall service at boot
   ansible.builtin.systemd:
     name: firewalld.service
     enabled: false
-    state: stopped
   when:
     - ansible_distribution == 'AlmaLinux'
     - ansible_distribution_major_version == 9
@@ -22,6 +37,15 @@
 - name: Disable Linux swap memory (temporary)
   ansible.builtin.command:
     cmd: swapoff -a
+  tags:
+    - setup
+
+# Disable Linux swap memory (permanent).
+- name: Disable Linux swap memory (permanent)
+  ansible.posix.mount:
+    name: swap
+    fstype: swap
+    state: absent
   tags:
     - setup
 

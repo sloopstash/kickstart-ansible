@@ -1,5 +1,5 @@
-# Start Docker CRI.
-- name: Start Docker CRI
+# Start Docker CRI service.
+- name: Start Docker CRI service
   ansible.builtin.systemd:
     name: cri-docker.service
     state: started

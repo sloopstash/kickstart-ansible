@@ -1,5 +1,5 @@
-# Start Kubelet.
-- name: Start Kubelet
+# Start Kubelet service.
+- name: Start Kubelet service
   ansible.builtin.systemd:
     name: kubelet.service
     state: started

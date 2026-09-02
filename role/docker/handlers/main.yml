@@ -1,12 +1,12 @@
-# Reload Systemd.
-- name: Reload Systemd
+# Reload Systemd service.
+- name: Reload Systemd service
   ansible.builtin.systemd:
     daemon_reload: true
   tags:
     - configure
 
-# Restart Docker.
-- name: Restart Docker
+# Restart Docker service.
+- name: Restart Docker service
   ansible.builtin.systemd:
     name: docker.service
     state: restarted

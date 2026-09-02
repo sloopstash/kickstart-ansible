@@ -1,3 +1,14 @@
+# Stop Firewall service.
+- name: Stop Firewall service
+  ansible.builtin.systemd:
+    name: firewalld.service
+    state: stopped
+  when:
+    - ansible_distribution == 'AlmaLinux'
+    - ansible_distribution_major_version == 9
+  tags:
+    - stop
+
 # Stop Supervisor.
 - name: Stop Supervisor
   ansible.builtin.command:
