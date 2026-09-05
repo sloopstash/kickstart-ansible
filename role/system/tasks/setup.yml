@@ -14,6 +14,10 @@
 #   tags:
 #     - setup
 
+# Populate Ansible service facts.
+- name: Populate Ansible service facts
+  ansible.builtin.service_facts:
+
 # Disable Firewall service at boot.
 - name: Disable Firewall service at boot
   ansible.builtin.systemd:
@@ -21,6 +25,7 @@
     enabled: false
   when:
     - ansible_distribution == 'AlmaLinux'
+    - ansible_facts.services['firewalld.service'] is defined
   tags:
     - setup
 

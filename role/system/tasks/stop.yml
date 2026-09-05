@@ -5,6 +5,7 @@
     state: stopped
   when:
     - ansible_distribution == 'AlmaLinux'
+    - ansible_facts.services['firewalld.service'] is defined
   tags:
     - stop
 
