@@ -5,7 +5,7 @@
     disable_gpg_check: true
     state: present
   vars:
-    architecture: "{{'aarch64' if ansible_architecture == 'arm64' else 'x86_64'}}"
+    architecture: "{{'aarch64' if ansible_architecture in ['aarch64','arm64'] else 'x86_64'}}"
     cgroup_release_version: "{{docker_cri.cgroup.release_version}}"
     cgroup_enterprise_linux: "{{docker_cri.cgroup.enterprise_linux}}"
     download_url: "https://repo.almalinux.org/almalinux/{{cgroup_enterprise_linux}}/BaseOS/{{architecture}}/os/Packages/libcgroup-{{cgroup_release_version}}-19.el{{cgroup_enterprise_linux}}.{{architecture}}.rpm"
@@ -22,7 +22,7 @@
     remote_src: yes
     creates: "{{archive_path}}"
   vars:
-    architecture: "{{'arm64' if ansible_architecture == 'arm64' else 'amd64'}}"
+    architecture: "{{'arm64' if ansible_architecture in ['aarch64','arm64'] else 'amd64'}}"
     release_version: "{{docker_cri.release_version}}"
     download_url: "https://github.com/Mirantis/cri-dockerd/releases/download/v{{release_version}}/cri-dockerd-{{release_version}}.{{architecture}}.tgz"
     archive_path: "/tmp/cri-dockerd-{{release_version}}.{{architecture}}.tgz"
