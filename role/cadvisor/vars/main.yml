@@ -1,0 +1,3 @@
+# Set variables.
+cadvisor:
+  release_version: 0.60.6

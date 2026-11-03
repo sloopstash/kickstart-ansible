@@ -1,0 +1,7 @@
+# Start cAdvisor service.
+- name: Start cAdvisor service
+  ansible.builtin.systemd:
+    name: cadvisor.service
+    state: started
+  tags:
+    - start

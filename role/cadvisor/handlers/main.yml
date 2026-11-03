@@ -1,0 +1,14 @@
+# Reload Systemd service.
+- name: Reload Systemd service
+  ansible.builtin.systemd:
+    daemon_reload: true
+  tags:
+    - configure
+
+# Restart cAdvisor service.
+- name: Restart cAdvisor service
+  ansible.builtin.systemd:
+    name: cadvisor.service
+    state: restarted
+  tags:
+    - configure

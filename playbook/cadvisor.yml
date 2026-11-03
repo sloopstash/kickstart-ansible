@@ -1,0 +1,8 @@
+- hosts:
+    - docker_manager
+    - docker_worker
+    - kubernetes_master
+    - kubernetes_worker
+  roles:
+    - system
+    - cadvisor

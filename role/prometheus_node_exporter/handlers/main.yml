@@ -1,0 +1,14 @@
+# Reload Systemd service.
+- name: Reload Systemd service
+  ansible.builtin.systemd:
+    daemon_reload: true
+  tags:
+    - configure
+
+# Restart Prometheus node-exporter service.
+- name: Restart Prometheus node-exporter service
+  ansible.builtin.systemd:
+    name: prometheus-node-exporter.service
+    state: restarted
+  tags:
+    - configure

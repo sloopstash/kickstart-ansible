@@ -1,0 +1,7 @@
+# Stop cAdvisor service.
+- name: Stop cAdvisor service
+  ansible.builtin.systemd:
+    name: cadvisor.service
+    state: stopped
+  tags:
+    - stop

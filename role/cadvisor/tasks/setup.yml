@@ -1,0 +1,29 @@
+# Download cAdvisor.
+- name: Download cAdvisor
+  ansible.builtin.get_url:
+    url: "{{download_url}}"
+    dest: /tmp
+    owner: root
+    group: root
+  vars:
+    architecture: "{{'arm64' if ansible_architecture in ['aarch64','arm64'] else 'amd64'}}"
+    release_version: "{{cadvisor.release_version}}"
+    download_url: "https://github.com/google/cadvisor/releases/download/v{{release_version}}/cadvisor-v{{release_version}}-linux-{{architecture}}"
+  tags:
+    - setup
+
+# Install cAdvisor.
+- name: Install cAdvisor
+  ansible.builtin.copy:
+    src: "/tmp/cadvisor-v{{release_version}}-linux-{{architecture}}"
+    dest: /usr/bin/cadvisor
+    owner: root
+    group: root
+    mode: 0755
+    backup: false
+    remote_src: true
+  vars:
+    architecture: "{{'arm64' if ansible_architecture in ['aarch64','arm64'] else 'amd64'}}"
+    release_version: "{{cadvisor.release_version}}"
+  tags:
+    - setup

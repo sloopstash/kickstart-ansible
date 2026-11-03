@@ -1,0 +1,7 @@
+# Start Prometheus node-exporter service.
+- name: Start Prometheus node-exporter service
+  ansible.builtin.systemd:
+    name: prometheus-node-exporter.service
+    state: started
+  tags:
+    - start

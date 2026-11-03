@@ -1,0 +1,33 @@
+# Download and extract Prometheus node-exporter.
+- name: Download and extract Prometheus node-exporter
+  ansible.builtin.unarchive:
+    src: "{{download_url}}"
+    dest: /tmp
+    owner: root
+    group: root
+    remote_src: yes
+    creates: "{{archive_path}}"
+  vars:
+    architecture: "{{'arm64' if ansible_architecture in ['aarch64','arm64'] else 'amd64'}}"
+    release_version: "{{prometheus_node_exporter.release_version}}"
+    download_url: "https://github.com/prometheus/node_exporter/releases/download/v{{release_version}}/node_exporter-{{release_version}}.linux-{{architecture}}.tar.gz"
+    archive_path: "/tmp/node_exporter-{{release_version}}.linux-{{architecture}}.tar.gz"
+  tags:
+    - setup
+
+# Install Prometheus node-exporter.
+- name: Install Prometheus node-exporter
+  ansible.builtin.copy:
+    src: "{{source_dir}}/node_exporter"
+    dest: /usr/bin/node_exporter
+    owner: root
+    group: root
+    mode: 0755
+    backup: false
+    remote_src: true
+  vars:
+    architecture: "{{'arm64' if ansible_architecture in ['aarch64','arm64'] else 'amd64'}}"
+    release_version: "{{prometheus_node_exporter.release_version}}"
+    source_dir: "/tmp/node_exporter-{{release_version}}.linux-{{architecture}}"
+  tags:
+    - setup

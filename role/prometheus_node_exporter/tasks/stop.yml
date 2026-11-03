@@ -1,0 +1,7 @@
+# Stop Prometheus node-exporter service.
+- name: Stop Prometheus node-exporter service
+  ansible.builtin.systemd:
+    name: prometheus-node-exporter.service
+    state: stopped
+  tags:
+    - stop

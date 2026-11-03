@@ -1,0 +1,12 @@
+[Unit]
+Description=cAdvisor (Container Advisor)
+Documentation=https://github.com/google/cadvisor
+After=network.target containerd.service
+Wants=containerd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/cadvisor --port 9092
+
+[Install]
+WantedBy=multi-user.target
